@@ -1,0 +1,10 @@
+@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/
+@Context/=src/Library/
+@Errors/=src/Library/
+@Modifier/=src/Library/
+@PoolStorage/=src/Core/
+@SalvaMath/=src/Library/
+@ISalvaPool/=src/Interfaces/
+@SalvaOracle/=src/Core/
+@PoolHelper/=src/Library/
+@SalvaPool/=src/Core/

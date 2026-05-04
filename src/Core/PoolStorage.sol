@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.30;
+
+abstract contract PoolStorage {
+    uint256 internal constant S_FACTOR = 1e6;
+    uint256 internal constant SUPPORTED_TOKEN_DECIMAL = 6;
+    address internal MULTISIG;
+    address internal DEPLOYER;
+    address internal SALVA_ORACLE;
+    bool internal PAUSED;
+    bool internal _initialized;
+    uint128 _buyRate;
+    uint128 _sellRate;
+}
