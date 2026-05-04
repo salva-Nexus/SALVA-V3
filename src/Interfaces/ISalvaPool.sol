@@ -3,22 +3,17 @@ pragma solidity ^0.8.30;
 
 /**
  * @title ISalvaPool
- * @notice Full interface for Salva V3 P2P Pools handling swaps, rates, liquidity, and emergency states.
+ * @notice Full interface for Salva V3 P2P Pools handling swaps, rates, liquidity, and emergency
+ * states.
  */
 interface ISalvaPool {
     // --- Swap Events ---
     event SwappedToToken(
-        address indexed receiver, 
-        address indexed token, 
-        uint256 ngnsIn, 
-        uint256 tokenOut
+        address indexed receiver, address indexed token, uint256 ngnsIn, uint256 tokenOut
     );
 
     event SwappedToNGNs(
-        address indexed receiver, 
-        address indexed token, 
-        uint256 tokenIn, 
-        uint256 ngnsOut
+        address indexed receiver, address indexed token, uint256 tokenIn, uint256 ngnsOut
     );
 
     // --- Rate Events ---
