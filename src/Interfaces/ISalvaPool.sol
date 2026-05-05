@@ -29,14 +29,14 @@ interface ISalvaPool {
     event LiquidityRemoved(address indexed asset, uint256 amount);
 
     // --- Swap Functions ---
-    function swapToToken(
+    function swapExactAmountToToken(
         address _receiver,
         address _swapTokenOut,
         address _ngnsToken,
         uint256 _ngnsAmountIn
     ) external returns (bool);
 
-    function swapToNGNs(
+    function swapExactAmountToNGNs(
         address _receiver,
         address _swapTokenIn,
         address _ngnsTokenOut,

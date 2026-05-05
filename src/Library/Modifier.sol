@@ -20,11 +20,6 @@ abstract contract Modifier is Context, PoolHelper {
         _;
     }
 
-    modifier onlyUninitialized(bool _isInitialized) {
-        _requireUninitialized(_isInitialized);
-        _;
-    }
-
     modifier onlyDeployer(address _deployer) {
         _onlyDeployer(_deployer);
         _;
@@ -45,12 +40,6 @@ abstract contract Modifier is Context, PoolHelper {
     function _whenNotPaused(bool _state) internal pure {
         if (_state) {
             revert Errors__Not_Authorized();
-        }
-    }
-
-    function _requireUninitialized(bool _isInitialized) internal pure {
-        if (_isInitialized) {
-            revert Errors__AlreadyInitialized();
         }
     }
 

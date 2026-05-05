@@ -1,4 +1,5 @@
 @openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/
+@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/
 @Context/=src/Library/
 @Errors/=src/Library/
 @Modifier/=src/Library/
@@ -8,3 +9,8 @@
 @SalvaOracle/=src/Core/
 @PoolHelper/=src/Library/
 @SalvaPool/=src/Core/
+@DeployPool/=src/Core/
+@Setup/=test/
+@BaseTest/=test/
+@MockUSDC/=test/Mocks/
+@MockNGNs/=test/Mocks/

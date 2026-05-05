@@ -8,34 +8,36 @@ import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.s
 contract DeployPool is SalvaPool {
     using SafeERC20 for IERC20;
 
-    function initialize() external onlyUninitialized(_initialized) {
+    constructor() {
         DEPLOYER = _msgSender();
         _initialized = true;
         PAUSED = false;
     }
 
-    function provideLiquidity(address asset, uint256 amount)
-        external
-        onlyDeployer(DEPLOYER)
-        returns (bool)
-    {
-        _onlySupportedToken(asset);
-
+    /**
+     * @notice Allows LP to fund the pool.
+     * @dev Emits LiquidityAdded for off-chain tracking.
+     */
+    function provideLiquidity(address asset, uint256 amount) external returns (bool) {
         // Transfer assets from the LP's wallet to this pool contract
         IERC20(asset).safeTransferFrom(_msgSender(), address(this), amount);
+
+        // EMIT EVENT
+        emit LiquidityAdded(asset, amount);
 
         return true;
     }
 
-    function removeLiquidity(address asset, uint256 amount)
-        external
-        onlyDeployer(DEPLOYER)
-        returns (bool)
-    {
-        _onlySupportedToken(asset);
-
+    /**
+     * @notice Allows LP to withdraw funds.
+     * @dev Emits LiquidityRemoved for off-chain tracking.
+     */
+    function removeLiquidity(address asset, uint256 amount) external returns (bool) {
         // Transfer assets from the pool contract back to the LP's wallet
         IERC20(asset).safeTransfer(_msgSender(), amount);
+
+        // EMIT EVENT
+        emit LiquidityRemoved(asset, amount);
 
         return true;
     }
