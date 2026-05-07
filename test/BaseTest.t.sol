@@ -1,19 +1,23 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.30;
 
-import { DeployPool } from "@DeployPool/DeployPool.sol";
+import { MockMultisig } from "@MockMultisig/MockMultisig.sol";
 import { MockNGNs } from "@MockNGNs/MockNGNs.sol";
 import { MockUSDC } from "@MockUSDC/MockUSDC.sol";
+import { PoolFactory } from "@PoolFactory/PoolFactory.sol";
+import { SalvaPool } from "@SalvaPool/SalvaPool.sol";
 import { Test, console } from "forge-std/Test.sol";
 
 abstract contract BaseTest is Test {
+    PoolFactory internal POOLFACTORY;
     address internal MAINDEPLOYER;
+    MockMultisig internal MULTISIG;
     uint256 internal DEPLOYERKEY;
     MockUSDC internal MOCKUSDC;
     MockNGNs internal MOCKNGNs;
-    DeployPool internal POOL;
+    SalvaPool internal POOL;
     uint256 internal INITIALBUYRATE = 1547_500000; // 1547.5 NGN per USD
-    uint256 internal INITIALSELLRATE = 1563_250000; // 1563.25 NGN per USD
+    uint256 internal INITIALSELLRATE = 1563_250000;
 
     function _changePrank(address _newPrank) internal {
         vm.stopPrank();

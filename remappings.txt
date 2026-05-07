@@ -6,11 +6,14 @@
 @PoolStorage/=src/Core/
 @SalvaMath/=src/Library/
 @ISalvaPool/=src/Interfaces/
+@IPoolFactory/=src/Interfaces/
 @SalvaOracle/=src/Core/
 @PoolHelper/=src/Library/
+@SwapEngine/=src/Core/
 @SalvaPool/=src/Core/
-@DeployPool/=src/Core/
 @Setup/=test/
 @BaseTest/=test/
 @MockUSDC/=test/Mocks/
+@MockMultisig/=test/Mocks/
 @MockNGNs/=test/Mocks/
+@PoolFactory/=src/Core/Factory/

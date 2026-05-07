@@ -51,6 +51,9 @@ interface ISalvaPool {
     function provideLiquidity(address asset, uint256 amount) external returns (bool);
     function removeLiquidity(address asset, uint256 amount) external returns (bool);
 
+    // --- Initialization ---
+    function initialize(address deployer) external;
+
     // --- Emergency Control ---
     function pause() external returns (bool);
     function unpause() external returns (bool);

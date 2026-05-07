@@ -5,46 +5,35 @@ import { Context } from "@Context/Context.sol";
 import { PoolHelper } from "@PoolHelper/PoolHelper.sol";
 
 abstract contract Modifier is Context, PoolHelper {
-    modifier onlyTreasurer(address _treasurer) {
-        _onlyTreasurer(_treasurer);
+    modifier whenNotPaused() {
+        _whenNotPaused();
         _;
     }
 
-    modifier onlyMultisig(address _multisig) {
-        _onlyMultisig(_multisig);
+    modifier onlyUninitialized() {
+        _requireUninitialized();
         _;
     }
 
-    modifier whenNotPaused(bool _state) {
-        _whenNotPaused(_state);
+    modifier onlyDeployer() {
+        _onlyDeployer();
         _;
     }
 
-    modifier onlyDeployer(address _deployer) {
-        _onlyDeployer(_deployer);
-        _;
-    }
-
-    function _onlyTreasurer(address _treasurer) internal view {
-        if (_msgSender() != _treasurer) {
+    function _whenNotPaused() internal view {
+        if (PAUSED) {
             revert Errors__Not_Authorized();
         }
     }
 
-    function _onlyMultisig(address _multisig) internal view {
-        if (_msgSender() != _multisig) {
-            revert Errors__Not_Authorized();
+    function _requireUninitialized() internal view {
+        if (_initialized) {
+            revert Errors__AlreadyInitialized();
         }
     }
 
-    function _whenNotPaused(bool _state) internal pure {
-        if (_state) {
-            revert Errors__Not_Authorized();
-        }
-    }
-
-    function _onlyDeployer(address _deployer) internal view {
-        if (_msgSender() != _deployer) {
+    function _onlyDeployer() internal view {
+        if (_msgSender() != DEPLOYER) {
             revert Errors__Not_Authorized();
         }
     }

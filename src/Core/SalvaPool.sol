@@ -1,61 +1,44 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.30;
 
-import { SalvaOracle } from "@SalvaOracle/SalvaOracle.sol";
+import { SwapEngine } from "@SwapEngine/SwapEngine.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-abstract contract SalvaPool is SalvaOracle {
+contract SalvaPool is SwapEngine {
     using SafeERC20 for IERC20;
 
-    /**
-     * @notice Emergncy stop: Pauses all swap functions in the pool.
-     */
-    function pause() external onlyDeployer(DEPLOYER) returns (bool) {
-        PAUSED = true;
-        emit Paused(_msgSender());
-        return true;
-    }
-
-    /**
-     * @notice Resume: Re-activates swap functions.
-     */
-    function unpause() external onlyDeployer(DEPLOYER) returns (bool) {
+    function initialize(address deployer) external onlyUninitialized {
+        DEPLOYER = deployer;
+        _initialized = true;
         PAUSED = false;
-        emit Unpaused(_msgSender());
+    }
+
+    /**
+     * @notice Allows LP to fund the pool.
+     * @dev Emits LiquidityAdded for off-chain tracking.
+     */
+    function provideLiquidity(address asset, uint256 amount) external returns (bool) {
+        // Transfer assets from the LP's wallet to this pool contract
+        IERC20(asset).safeTransferFrom(_msgSender(), address(this), amount);
+
+        // EMIT EVENT
+        emit LiquidityAdded(asset, amount);
+
         return true;
     }
 
-    function swapExactAmountToToken(
-        address _receiver,
-        address _swapTokenOut,
-        address _ngnsToken,
-        uint256 _ngnsAmountIn
-    ) external whenNotPaused(PAUSED) returns (bool) {
-        _onlySupportedToken(_swapTokenOut);
-        _onlySupportedToken(_ngnsToken);
-        uint256 _exRate = _getBuyRate();
-        uint256 swapTokenOut = getExactTokenOut(_ngnsAmountIn, _exRate);
-        IERC20(_ngnsToken).safeTransferFrom(_msgSender(), address(this), _ngnsAmountIn);
-        IERC20(_swapTokenOut).safeTransfer(_receiver, swapTokenOut);
-        emit SwappedToToken(_receiver, _swapTokenOut, _ngnsAmountIn, swapTokenOut);
-        return true;
-    }
+    /**
+     * @notice Allows LP to withdraw funds.
+     * @dev Emits LiquidityRemoved for off-chain tracking.
+     */
+    function removeLiquidity(address asset, uint256 amount) external returns (bool) {
+        // Transfer assets from the pool contract back to the LP's wallet
+        IERC20(asset).safeTransfer(_msgSender(), amount);
 
-    function swapExactAmountToNGNs(
-        address _receiver,
-        address _swapTokenIn,
-        address _ngnsTokenOut,
-        uint256 _tokenAmountIn
-    ) external whenNotPaused(PAUSED) returns (bool) {
-        _onlySupportedToken(_swapTokenIn);
-        _onlySupportedToken(_ngnsTokenOut);
-        uint256 _exRate = _getSellRate();
+        // EMIT EVENT
+        emit LiquidityRemoved(asset, amount);
 
-        uint256 swapNGNsOut = getExactNGNsOut(_tokenAmountIn, _exRate);
-        IERC20(_swapTokenIn).safeTransferFrom(_msgSender(), address(this), _tokenAmountIn);
-        IERC20(_ngnsTokenOut).safeTransfer(_receiver, swapNGNsOut);
-        emit SwappedToNGNs(_receiver, _swapTokenIn, _tokenAmountIn, swapNGNsOut);
         return true;
     }
 }
