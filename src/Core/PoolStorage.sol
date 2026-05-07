@@ -6,7 +6,6 @@ abstract contract PoolStorage {
     uint256 internal constant SUPPORTED_TOKEN_DECIMAL = 6;
     address internal MULTISIG;
     address internal DEPLOYER;
-    address internal SALVA_ORACLE;
     bool internal PAUSED;
     bool internal _initialized;
     uint128 _buyRate;

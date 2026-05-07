@@ -17,6 +17,10 @@ abstract contract PoolHelper is Errors {
         return DEPLOYER;
     }
 
+    function getPoolAddress() external view returns (address) {
+        return address(this);
+    }
+
     function getExactTokenOut(uint256 ngnsAmountIn, uint256 exRate) public pure returns (uint256) {
         return ngnsAmountIn.calculateTokenAmountOut(exRate, S_FACTOR);
     }
