@@ -14,7 +14,7 @@
 
 <br />
 
-> **V3 is the first decentralized on-chain liquidity pool for the Nigerian Naira.** LPs fund a pool once and earn automatically — no OTC desk, no merchant approval, no waiting.
+> **V3 introduces an on-chain liquidity pool for the Nigerian Naira.** LPs fund a pool once and earn automatically — no OTC desk, no merchant approval, no waiting.
 
 <br />
 
