@@ -8,6 +8,6 @@ abstract contract PoolStorage {
     address internal DEPLOYER;
     bool internal PAUSED;
     bool internal _initialized;
-    uint128 _buyRate;
-    uint128 _sellRate;
+    uint128 internal _buyRate;
+    uint128 internal _sellRate;
 }
