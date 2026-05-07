@@ -29,7 +29,6 @@
 - [Why V3 is Different](#-why-v3-is-different)
 - [How It Works](#️-how-it-works)
 - [Contract Architecture](#️-contract-architecture)
-- [Swap Math](#-swap-math)
 - [Deployments](#-deployments)
 - [Developer Installation](#️-developer-installation)
 - [License](#️-license)
