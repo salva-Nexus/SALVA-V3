@@ -217,8 +217,7 @@ Variable UUPSUpgradeable.__self (lib/openzeppelin-contracts/contracts/proxy/util
 Variable PoolFactory.__gap (src/Core/Factory/PoolFactory.sol#47) is not in mixedCase
 Variable PoolStorage.MULTISIG (src/Core/PoolStorage.sol#7) is not in mixedCase
 Variable PoolStorage.DEPLOYER (src/Core/PoolStorage.sol#8) is not in mixedCase
-Variable PoolStorage.SALVA_ORACLE (src/Core/PoolStorage.sol#9) is not in mixedCase
-Variable PoolStorage.PAUSED (src/Core/PoolStorage.sol#10) is not in mixedCase
+Variable PoolStorage.PAUSED (src/Core/PoolStorage.sol#9) is not in mixedCase
 Parameter SalvaOracle.updateBuyRate(uint256)._exRate (src/Core/SalvaOracle.sol#8) is not in mixedCase
 Parameter SalvaOracle.updateSellRate(uint256)._exRate (src/Core/SalvaOracle.sol#16) is not in mixedCase
 Function SalvaOracle._getBuyRate() (src/Core/SalvaOracle.sol#24-26) is not in mixedCase
@@ -257,12 +256,10 @@ INFO:Detectors:
 Detector: unused-state
 PoolFactory.__gap (src/Core/Factory/PoolFactory.sol#47) is never used in PoolFactory (src/Core/Factory/PoolFactory.sol#19-142)
 PoolStorage.MULTISIG (src/Core/PoolStorage.sol#7) is never used in SalvaPool (src/Core/SalvaPool.sol#8-44)
-PoolStorage.SALVA_ORACLE (src/Core/PoolStorage.sol#9) is never used in SalvaPool (src/Core/SalvaPool.sol#8-44)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-state-variable
 INFO:Detectors:
 Detector: constable-states
 PoolStorage.MULTISIG (src/Core/PoolStorage.sol#7) should be constant 
-PoolStorage.SALVA_ORACLE (src/Core/PoolStorage.sol#9) should be constant 
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant
 **THIS CHECKLIST IS NOT COMPLETE**. Use `--show-ignored-findings` to show all the results.
 Summary
@@ -272,11 +269,11 @@ Summary
  - [assembly](#assembly) (30 results) (Informational)
  - [pragma](#pragma) (1 results) (Informational)
  - [solc-version](#solc-version) (6 results) (Informational)
- - [naming-convention](#naming-convention) (24 results) (Informational)
+ - [naming-convention](#naming-convention) (23 results) (Informational)
  - [too-many-digits](#too-many-digits) (2 results) (Informational)
  - [unindexed-event-address](#unindexed-event-address) (5 results) (Informational)
- - [unused-state](#unused-state) (3 results) (Informational)
- - [constable-states](#constable-states) (2 results) (Optimization)
+ - [unused-state](#unused-state) (2 results) (Informational)
+ - [constable-states](#constable-states) (1 results) (Optimization)
 ## unused-return
 Impact: Medium
 Confidence: Medium
@@ -707,9 +704,9 @@ https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/SwapEngine.sol#L33
 
 
  - [ ] ID-43
-Variable [PoolStorage.PAUSED](https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/PoolStorage.sol#L10) is not in mixedCase
+Variable [PoolStorage.PAUSED](https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/PoolStorage.sol#L9) is not in mixedCase
 
-https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/PoolStorage.sol#L10
+https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/PoolStorage.sol#L9
 
 
  - [ ] ID-44
@@ -815,30 +812,24 @@ https://github.com/cboi019/SALVA-NEXUS/blob/main/lib/openzeppelin-contracts/cont
 
 
  - [ ] ID-61
-Variable [PoolStorage.SALVA_ORACLE](https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/PoolStorage.sol#L9) is not in mixedCase
-
-https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/PoolStorage.sol#L9
-
-
- - [ ] ID-62
 Function [SalvaOracle._getSellRate()](https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/SalvaOracle.sol#L28-L30) is not in mixedCase
 
 https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/SalvaOracle.sol#L28-L30
 
 
- - [ ] ID-63
+ - [ ] ID-62
 Parameter [SalvaMath.calculateTokenAmountOut(uint256,uint256,uint256)._factor](https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Library/SalvaMath.sol#L5) is not in mixedCase
 
 https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Library/SalvaMath.sol#L5
 
 
- - [ ] ID-64
+ - [ ] ID-63
 Parameter [SalvaMath.calculateNGNsAmountOut(uint256,uint256,uint256)._amountIn](https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Library/SalvaMath.sol#L13) is not in mixedCase
 
 https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Library/SalvaMath.sol#L13
 
 
- - [ ] ID-65
+ - [ ] ID-64
 Parameter [SwapEngine.swapExactAmountToNGNs(address,address,address,uint256)._swapTokenIn](https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/SwapEngine.sol#L47) is not in mixedCase
 
 https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/SwapEngine.sol#L47
@@ -847,15 +838,15 @@ https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/SwapEngine.sol#L47
 ## too-many-digits
 Impact: Informational
 Confidence: Medium
- - [ ] ID-66
+ - [ ] ID-65
 [Clones.cloneDeterministic(address,bytes32,uint256)](https://github.com/cboi019/SALVA-NEXUS/blob/main/lib/openzeppelin-contracts/contracts/proxy/Clones.sol#L90-L109) uses literals with too many digits:
 	- [mstore(uint256,uint256)(0x00,implementation << 96 >> 232 | 0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000)](https://github.com/cboi019/SALVA-NEXUS/blob/main/lib/openzeppelin-contracts/contracts/proxy/Clones.sol#L101)
-INFO:Slither:. analyzed (28 contracts with 101 detectors), 78 result(s) found
 
-https://github.com/cboi019/SALVA-NEXUS/blob/main/lib/openzeppelin-contracts/contracts/proxy/Clones.sol#L90-L109
+https://github.com/cboi019/SALVA-NEXUS/blob/main/lib/openzeppelin-contracts/contracts/proxy/Clones.sol#L90-L109INFO:Slither:. analyzed (28 contracts with 101 detectors), 75 result(s) found
 
 
- - [ ] ID-67
+
+ - [ ] ID-66
 [Clones.clone(address,uint256)](https://github.com/cboi019/SALVA-NEXUS/blob/main/lib/openzeppelin-contracts/contracts/proxy/Clones.sol#L47-L62) uses literals with too many digits:
 	- [mstore(uint256,uint256)(0x00,implementation << 96 >> 232 | 0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000)](https://github.com/cboi019/SALVA-NEXUS/blob/main/lib/openzeppelin-contracts/contracts/proxy/Clones.sol#L54)
 
@@ -865,31 +856,31 @@ https://github.com/cboi019/SALVA-NEXUS/blob/main/lib/openzeppelin-contracts/cont
 ## unindexed-event-address
 Impact: Informational
 Confidence: High
- - [ ] ID-68
+ - [ ] ID-67
 Event [ISalvaPool.Paused(address)](https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Interfaces/ISalvaPool.sol#L24) has address parameters but no indexed parameters
 
 https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Interfaces/ISalvaPool.sol#L24
 
 
- - [ ] ID-69
+ - [ ] ID-68
 Event [PoolFactory.ImplementationUpdated(address,address)](https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/Factory/PoolFactory.sol#L34) has address parameters but no indexed parameters
 
 https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/Factory/PoolFactory.sol#L34
 
 
- - [ ] ID-70
+ - [ ] ID-69
 Event [ISalvaPool.Unpaused(address)](https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Interfaces/ISalvaPool.sol#L25) has address parameters but no indexed parameters
 
 https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Interfaces/ISalvaPool.sol#L25
 
 
- - [ ] ID-71
+ - [ ] ID-70
 Event [IERC1967.AdminChanged(address,address)](https://github.com/cboi019/SALVA-NEXUS/blob/main/lib/openzeppelin-contracts/contracts/interfaces/IERC1967.sol#L18) has address parameters but no indexed parameters
 
 https://github.com/cboi019/SALVA-NEXUS/blob/main/lib/openzeppelin-contracts/contracts/interfaces/IERC1967.sol#L18
 
 
- - [ ] ID-72
+ - [ ] ID-71
 Event [PoolFactory.MultiSigUpdated(address,address)](https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/Factory/PoolFactory.sol#L35) has address parameters but no indexed parameters
 
 https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/Factory/PoolFactory.sol#L35
@@ -898,19 +889,13 @@ https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/Factory/PoolFactory.so
 ## unused-state
 Impact: Informational
 Confidence: High
- - [ ] ID-73
-[PoolStorage.SALVA_ORACLE](https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/PoolStorage.sol#L9) is never used in [SalvaPool](https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/SalvaPool.sol#L8-L44)
-
-https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/PoolStorage.sol#L9
-
-
- - [ ] ID-74
+ - [ ] ID-72
 [PoolFactory.__gap](https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/Factory/PoolFactory.sol#L47) is never used in [PoolFactory](https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/Factory/PoolFactory.sol#L19-L142)
 
 https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/Factory/PoolFactory.sol#L47
 
 
- - [ ] ID-75
+ - [ ] ID-73
 [PoolStorage.MULTISIG](https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/PoolStorage.sol#L7) is never used in [SalvaPool](https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/SalvaPool.sol#L8-L44)
 
 https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/PoolStorage.sol#L7
@@ -919,13 +904,7 @@ https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/PoolStorage.sol#L7
 ## constable-states
 Impact: Optimization
 Confidence: High
- - [ ] ID-76
-[PoolStorage.SALVA_ORACLE](https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/PoolStorage.sol#L9) should be constant 
-
-https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/PoolStorage.sol#L9
-
-
- - [ ] ID-77
+ - [ ] ID-74
 [PoolStorage.MULTISIG](https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/PoolStorage.sol#L7) should be constant 
 
 https://github.com/cboi019/SALVA-NEXUS/blob/main/src/Core/PoolStorage.sol#L7
