@@ -7,10 +7,9 @@
 
 <br />
 
-[![Network](https://img.shields.io/badge/Network-Base_L2_&_Ethereum_L1-0052FF?style=for-the-badge&logo=coinbase)](https://base.org)
+[![Network](https://img.shields.io/badge/Network-Base_L2-0052FF?style=for-the-badge&logo=coinbase)](https://base.org)
 [![Language](https://img.shields.io/badge/Stack-Solidity_|_Foundry-363636?style=for-the-badge&logo=ethereum)](https://soliditylang.org)
 [![License](https://img.shields.io/badge/License-MIT-D4AF37?style=for-the-badge)](./LICENSE)
-[![Status](https://img.shields.io/badge/Status-In_Development-F59E0B?style=for-the-badge)](https://salva-nexus.org)
 
 <br />
 
@@ -47,7 +46,7 @@ Salva V3 solves this with an oracle-gated model. The LP sets the rate manually f
 
 ## ✨ The Salva V3 Solution
 
-Salva V3 is an on-chain P2P liquidity pool that enables instant, permissionless exchange between **NGNs** (Nigerian Naira stablecoin) and **USDC / USDT** on Base L2 and Ethereum L1.
+Salva V3 is an on-chain P2P liquidity pool that enables instant, permissionless exchange between **NGNs** (Nigerian Naira stablecoin) and **USDC / USDT** on Base.
 
 
 LPs fund their pool once, set their rates, and go to sleep. The pool executes swaps automatically — 24/7, on-chain, with no intermediary and no off-chain backend involved.
@@ -131,12 +130,9 @@ SalvaMath   (calculateTokenAmountOut, calculateNGNsAmountOut)
 
 ## 🌍 Deployments
 
-| Network | Purpose | Entry Point |
-| :--- | :--- | :--- |
-| **Base L2** | Salva native wallet — low gas (~$0.01/swap) | In-app swap button |
-| **Ethereum L1** | EOA wallet connect — existing Ethereum users | salva-nexus.org/swap |
-
-Same contract, two deployments. Base serves Salva wallet users for everyday swaps. L1 serves users who already hold assets on Ethereum and don't want to bridge.
+| Network | Purpose |
+| :--- | :--- |
+| **Base L2** | Salva native wallet — low gas |
 
 ---
 
