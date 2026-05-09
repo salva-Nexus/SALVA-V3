@@ -101,7 +101,7 @@ contract SalvaPool is Setup {
         address user = makeAddr("user");
         _changePrank(MAINDEPLOYER);
         MOCKUSDC.mint(user, 2_000e6);
-        // Set Rate to 0, mimick fresh deployed pool without setting rate
+        // Set Rate to 0, simulate fresh deployed pool without setting rate...
         POOL.updateSellRate(0);
 
         uint256 amount = 5e6;
