@@ -25,7 +25,7 @@ contract SalvaPool is Setup {
         _changePrank(user);
         mUSD.approve(address(POOL), 200e6);
         vm.expectRevert(Errors.Errors__Invalid_Swap_Token.selector);
-        POOL.swapExactAmountToNGNs(user, address(mUSD), address(MOCKNGNs), 200e6);
+        POOL.swapExactTokenAmountForNGN(user, address(mUSD), address(MOCKNGNs), 200e6);
     }
 
     function testOnlyDeployerCanPauseAndUnpause(address _prank) external {
@@ -51,14 +51,14 @@ contract SalvaPool is Setup {
         _changePrank(user);
         MOCKUSDC.approve(address(POOL), 200e6);
         vm.expectRevert(Errors.Errors__Not_Authorized.selector);
-        POOL.swapExactAmountToNGNs(user, address(MOCKUSDC), address(MOCKNGNs), 200e6);
+        POOL.swapExactTokenAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), 200e6);
 
         _changePrank(MAINDEPLOYER);
         POOL.unpause();
 
         // should work
         _changePrank(user);
-        POOL.swapExactAmountToNGNs(user, address(MOCKUSDC), address(MOCKNGNs), 200e6);
+        POOL.swapExactTokenAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), 200e6);
     }
 
     function testSwapExactAmountToToken() external {
@@ -71,7 +71,7 @@ contract SalvaPool is Setup {
         uint256 amount = 1547_500000 * 2;
         _changePrank(user);
         MOCKNGNs.approve(address(POOL), amount);
-        POOL.swapExactAmountToToken(user, address(MOCKUSDC), address(MOCKNGNs), amount);
+        POOL.swapExactNGNAmountForToken(user, address(MOCKUSDC), address(MOCKNGNs), amount);
 
         uint256 expected = POOL.getExactTokenOut(amount, POOL._getBuyRate());
 
@@ -89,11 +89,26 @@ contract SalvaPool is Setup {
         uint256 amount = 5e6;
         _changePrank(user);
         MOCKUSDC.approve(address(POOL), amount);
-        POOL.swapExactAmountToNGNs(user, address(MOCKUSDC), address(MOCKNGNs), amount);
+        POOL.swapExactTokenAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), amount);
 
         uint256 expected = POOL.getExactNGNsOut(amount, POOL._getSellRate());
 
         assertEq(MOCKUSDC.balanceOf(user), 2_000e6 - amount);
         assertEq(MOCKNGNs.balanceOf(user), expected);
+    }
+
+    function testCannotSwapWhenRateNotSet() external {
+        address user = makeAddr("user");
+        _changePrank(MAINDEPLOYER);
+        MOCKUSDC.mint(user, 2_000e6);
+        // Set Rate to 0, mimick fresh deployed pool without setting rate
+        POOL.updateSellRate(0);
+
+        uint256 amount = 5e6;
+        _changePrank(user);
+        MOCKUSDC.approve(address(POOL), amount);
+
+        vm.expectRevert(abi.encodeWithSelector(Errors.Errors__Invalid_Rate.selector, 0));
+        POOL.swapExactTokenAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), amount);
     }
 }

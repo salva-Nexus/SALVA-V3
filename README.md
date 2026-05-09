@@ -86,10 +86,10 @@ The LP transfers NGNs and USDC/USDT directly into the pool. There is no internal
 
 ```
 // Buy USDC with NGNs
-User → POOL.swapExactAmountToToken(receiver, USDC, NGNs, 3095e6)
+User → POOL.swapExactNGNAmountForToken(receiver, USDC, NGNs, 3095e6)
 
 // Buy NGNs with USDC
-User → POOL.swapExactAmountToNGNs(receiver, USDC, NGNs, 5e6)
+User → POOL.swapExactTokenAmountForNGN(receiver, USDC, NGNs, 5e6)
 
 ```
 
@@ -103,7 +103,7 @@ Rates are stored as `uint128` with 6 decimal precision:
 
 ```
 SalvaPool  (initialize, provideLiquidity, removeLiquidity)
-└── SwapEngine  (swapExactAmountToToken, swapExactAmountToNGNs, pause, unpause)
+└── SwapEngine  (swapExactNGNAmountForToken, swapExactTokenAmountForNGN, pause, unpause)
     └── SalvaOracle  (updateBuyRate, updateSellRate, _getBuyRate, _getSellRate)
         └── Modifier  (onlyDeployer, whenNotPaused, onlyUninitialized)
             └── PoolHelper  (availableLiquidity, getDeployer, getExactTokenOut, getExactNGNsOut, _onlySupportedToken)
