@@ -32,7 +32,7 @@ contract SalvaPool is SwapEngine {
      * @notice Allows LP to withdraw funds.
      * @dev Emits LiquidityRemoved for off-chain tracking.
      */
-    function removeLiquidity(address asset, uint256 amount) external returns (bool) {
+    function removeLiquidity(address asset, uint256 amount) external onlyDeployer returns (bool) {
         // Transfer assets from the pool contract back to the LP's wallet
         IERC20(asset).safeTransfer(_msgSender(), amount);
 

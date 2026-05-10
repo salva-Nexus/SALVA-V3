@@ -10,4 +10,5 @@ abstract contract Errors is PoolStorage {
     error Errors__Not_Authorized();
     error Errors__Invalid_Swap_Token();
     error Errors__AlreadyInitialized();
+    error Errors__Not_Enough_Liquidity();
 }

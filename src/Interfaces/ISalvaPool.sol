@@ -7,6 +7,7 @@ pragma solidity ^0.8.30;
  * states.
  */
 interface ISalvaPool {
+    event RoutingPoolUpdated(address indexed pool);
     // --- Swap Events ---
     event SwappedToToken(
         address indexed receiver, address indexed token, uint256 ngnsIn, uint256 tokenOut

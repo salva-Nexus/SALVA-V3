@@ -47,11 +47,14 @@ contract SalvaPool is Setup {
         POOL.pause();
 
         address user = makeAddr("user");
-        MOCKUSDC.transfer(user, 200e6);
+        MOCKUSDC.transfer(user, 400e6);
         _changePrank(user);
-        MOCKUSDC.approve(address(POOL), 200e6);
+        MOCKUSDC.approve(address(POOL), 400e6);
         vm.expectRevert(Errors.Errors__Not_Authorized.selector);
         POOL.swapExactTokenAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), 200e6);
+
+        vm.expectRevert(Errors.Errors__Not_Authorized.selector);
+        POOL.swapForExactNGNAmount(user, address(MOCKUSDC), address(MOCKNGNs), 200e6);
 
         _changePrank(MAINDEPLOYER);
         POOL.unpause();
@@ -59,6 +62,7 @@ contract SalvaPool is Setup {
         // should work
         _changePrank(user);
         POOL.swapExactTokenAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), 200e6);
+        POOL.swapForExactNGNAmount(user, address(MOCKUSDC), address(MOCKNGNs), 200e6);
     }
 
     function testSwapExactAmountToToken() external {
@@ -146,5 +150,12 @@ contract SalvaPool is Setup {
 
         assertEq(MOCKUSDC.balanceOf(user), 2_000e6 - expected);
         assertEq(MOCKNGNs.balanceOf(user), amount);
+    }
+
+    function testOnlyDeployerCanRemoveLiquidity(address _prank) external {
+        vm.assume(_prank != MAINDEPLOYER);
+        _changePrank(_prank);
+        vm.expectRevert(Errors.Errors__Not_Authorized.selector);
+        POOL.removeLiquidity(address(MOCKUSDC), 200_000e6);
     }
 }
