@@ -13,8 +13,12 @@ abstract contract PoolHelper is Errors {
         return IERC20(asset).balanceOf(address(this));
     }
 
-    function getDeployer() external view returns (address) {
-        return DEPLOYER;
+    function getMinuimumNgnAmount() external view returns (uint256) {
+        return uint256(_minNgnAmount);
+    }
+
+    function getMinuimumTokenAmount() external view returns (uint256) {
+        return uint256(_minTokenAmount);
     }
 
     function getExactTokenAmountOut(uint256 ngnsAmountIn, uint256 exRate)
@@ -47,6 +51,10 @@ abstract contract PoolHelper is Errors {
         returns (uint256)
     {
         return ngnsAmountOut.calculateExactTokenAmountIn(exRate, S_FACTOR);
+    }
+
+    function getDeployer() external view returns (address) {
+        return DEPLOYER;
     }
 
     function _onlySupportedToken(address token) internal view {

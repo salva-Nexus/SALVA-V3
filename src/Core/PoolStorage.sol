@@ -10,4 +10,6 @@ abstract contract PoolStorage {
     bool internal _initialized;
     uint128 internal _buyRate;
     uint128 internal _sellRate;
+    uint128 internal _minNgnAmount;
+    uint128 internal _minTokenAmount;
 }

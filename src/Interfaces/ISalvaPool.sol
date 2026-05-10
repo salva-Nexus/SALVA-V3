@@ -29,6 +29,9 @@ interface ISalvaPool {
     event LiquidityAdded(address indexed asset, uint256 amount);
     event LiquidityRemoved(address indexed asset, uint256 amount);
 
+    event MinimumNgnAmountSet(uint256 amount);
+    event MinimumTokenAmountSet(uint256 amount);
+
     // --- Swap Functions ---
     function swapExactNGNAmountForToken(
         address _receiver,

@@ -158,4 +158,28 @@ contract SalvaPool is Setup {
         vm.expectRevert(Errors.Errors__Not_Authorized.selector);
         POOL.removeLiquidity(address(MOCKUSDC), 200_000e6);
     }
+
+    function testMinAmount() external {
+        _changePrank(MAINDEPLOYER);
+        POOL.setMinimumNgnAmount(5000e6);
+        POOL.setMinimumTokenAmount(2e6);
+
+        // NGN
+        address user = makeAddr("user");
+        MOCKNGNs.mint(user, 1_000_000e6);
+        MOCKUSDC.mint(user, 2000e6);
+
+        uint256 ngnAmount = 2000e6;
+        _changePrank(user);
+        MOCKNGNs.approve(address(POOL), ngnAmount);
+        vm.expectRevert(abi.encodeWithSelector(Errors.Errors__Amount_Too_Low.selector, ngnAmount));
+        POOL.swapExactNGNAmountForToken(user, address(MOCKUSDC), address(MOCKNGNs), ngnAmount);
+
+        // USD
+        uint256 usdAmount = 1e6;
+        _changePrank(user);
+        MOCKUSDC.approve(address(POOL), usdAmount);
+        vm.expectRevert(abi.encodeWithSelector(Errors.Errors__Amount_Too_Low.selector, usdAmount));
+        POOL.swapExactTokenAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), usdAmount);
+    }
 }

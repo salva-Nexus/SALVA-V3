@@ -34,6 +34,9 @@ abstract contract SwapEngine is SalvaOracle {
     ) public whenNotPaused returns (bool) {
         _onlySupportedToken(_swapTokenOut);
         _onlySupportedToken(_ngnsToken);
+        if (_ngnsAmountIn < _minNgnAmount) {
+            revert Errors__Amount_Too_Low(_ngnsAmountIn);
+        }
         uint256 _exRate = _getBuyRate();
         if (_exRate == 0) {
             revert Errors__Invalid_Rate(_exRate);
@@ -53,6 +56,9 @@ abstract contract SwapEngine is SalvaOracle {
     ) public whenNotPaused returns (bool) {
         _onlySupportedToken(_swapTokenIn);
         _onlySupportedToken(_ngnsTokenOut);
+        if (_tokenAmountIn < _minTokenAmount) {
+            revert Errors__Amount_Too_Low(_tokenAmountIn);
+        }
         uint256 _exRate = _getSellRate();
         if (_exRate == 0) {
             revert Errors__Invalid_Rate(_exRate);
