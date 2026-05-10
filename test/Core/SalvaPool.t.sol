@@ -73,7 +73,7 @@ contract SalvaPool is Setup {
         MOCKNGNs.approve(address(POOL), amount);
         POOL.swapExactNGNAmountForToken(user, address(MOCKUSDC), address(MOCKNGNs), amount);
 
-        uint256 expected = POOL.getExactTokenOut(amount, POOL._getBuyRate());
+        uint256 expected = POOL.getExactTokenAmountOut(amount, POOL._getBuyRate());
 
         assertEq(MOCKNGNs.balanceOf(user), 1_000_000e6 - amount);
         assertEq(MOCKUSDC.balanceOf(user), expected);
@@ -91,7 +91,7 @@ contract SalvaPool is Setup {
         MOCKUSDC.approve(address(POOL), amount);
         POOL.swapExactTokenAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), amount);
 
-        uint256 expected = POOL.getExactNGNsOut(amount, POOL._getSellRate());
+        uint256 expected = POOL.getExactNGNsAmountOut(amount, POOL._getSellRate());
 
         assertEq(MOCKUSDC.balanceOf(user), 2_000e6 - amount);
         assertEq(MOCKNGNs.balanceOf(user), expected);
@@ -110,5 +110,41 @@ contract SalvaPool is Setup {
 
         vm.expectRevert(abi.encodeWithSelector(Errors.Errors__Invalid_Rate.selector, 0));
         POOL.swapExactTokenAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), amount);
+    }
+
+    function testSwapForExactTokenAmount() external {
+        address user = makeAddr("user");
+        _changePrank(MAINDEPLOYER);
+        MOCKNGNs.mint(user, 1_000_000e6);
+        assertEq(MOCKNGNs.balanceOf(user), 1_000_000e6);
+        assertEq(MOCKUSDC.balanceOf(user), 0);
+
+        uint256 amount = 2e6;
+        _changePrank(user);
+        MOCKNGNs.approve(address(POOL), type(uint256).max);
+        POOL.swapForExactTokenAmount(user, address(MOCKUSDC), address(MOCKNGNs), amount);
+
+        uint256 expected = POOL.getExactNGNsAmountIn(amount, POOL._getBuyRate());
+
+        assertEq(MOCKNGNs.balanceOf(user), 1_000_000e6 - expected);
+        assertEq(MOCKUSDC.balanceOf(user), amount);
+    }
+
+    function testswapForExactNGNAmount() external {
+        address user = makeAddr("user");
+        _changePrank(MAINDEPLOYER);
+        MOCKUSDC.mint(user, 2_000e6);
+        assertEq(MOCKUSDC.balanceOf(user), 2_000e6);
+        assertEq(MOCKNGNs.balanceOf(user), 0);
+
+        uint256 amount = 1563_250000;
+        _changePrank(user);
+        MOCKUSDC.approve(address(POOL), type(uint256).max);
+        POOL.swapForExactNGNAmount(user, address(MOCKUSDC), address(MOCKNGNs), amount);
+
+        uint256 expected = POOL.getExactTokenAmountIn(amount, POOL._getSellRate());
+
+        assertEq(MOCKUSDC.balanceOf(user), 2_000e6 - expected);
+        assertEq(MOCKNGNs.balanceOf(user), amount);
     }
 }

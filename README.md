@@ -48,7 +48,6 @@ Salva V3 solves this with an oracle-gated model. The LP sets the rate manually f
 
 Salva V3 is an on-chain P2P liquidity pool that enables instant, permissionless exchange between **NGNs** (Nigerian Naira stablecoin) and **USDC / USDT** on Base.
 
-
 LPs fund their pool once, set their rates, and go to sleep. The pool executes swaps automatically — 24/7, on-chain, with no intermediary and no off-chain backend involved.
 
 ---
@@ -84,18 +83,25 @@ The LP transfers NGNs and USDC/USDT directly into the pool. There is no internal
 
 ### 3. User Swaps
 
-```
-// Buy USDC with NGNs
-User → POOL.swapExactNGNAmountForToken(receiver, USDC, NGNs, 3095e6)
+Four swap functions are available depending on whether the user knows their exact input or exact output:
 
-// Buy NGNs with USDC
-User → POOL.swapExactTokenAmountForNGN(receiver, USDC, NGNs, 5e6)
+```solidity
+// Know exactly how much NGNs you want to spend
+POOL.swapExactNGNAmountForToken(receiver, USDC, NGNs, 3095e6)
 
+// Know exactly how much USDC you want to spend
+POOL.swapExactTokenAmountForNGN(receiver, USDC, NGNs, 2e6)
+
+// Know exactly how much USDC you want to receive
+POOL.swapForExactTokenAmount(receiver, USDC, NGNs, 2e6)
+
+// Know exactly how much NGNs you want to receive
+POOL.swapForExactNGNAmount(receiver, USDC, NGNs, 3095e6)
 ```
 
 ### 4. Rate Convention
 
-Rates are stored as `uint128` with 6 decimal precision:
+Rates are stored as `uint128` with 6 decimal precision.
 
 ---
 
@@ -103,14 +109,19 @@ Rates are stored as `uint128` with 6 decimal precision:
 
 ```
 SalvaPool  (initialize, provideLiquidity, removeLiquidity)
-└── SwapEngine  (swapExactNGNAmountForToken, swapExactTokenAmountForNGN, pause, unpause)
+└── SwapEngine  (swapExactNGNAmountForToken, swapExactTokenAmountForNGN,
+│               swapForExactTokenAmount, swapForExactNGNAmount, pause, unpause)
     └── SalvaOracle  (updateBuyRate, updateSellRate, _getBuyRate, _getSellRate)
         └── Modifier  (onlyDeployer, whenNotPaused, onlyUninitialized)
-            └── PoolHelper  (availableLiquidity, getDeployer, getExactTokenOut, getExactNGNsOut, _onlySupportedToken)
+            └── PoolHelper  (availableLiquidity, getDeployer,
+            │               getExactTokenAmountOut, getExactNGNsAmountOut,
+            │               getExactNGNsAmountIn, getExactTokenAmountIn,
+            │               _onlySupportedToken)
                 └── PoolStorage  (S_FACTOR, SUPPORTED_TOKEN_DECIMAL, DEPLOYER, PAUSED, rates)
 
 PoolFactory  (UUPS proxy — deploys EIP-1167 SalvaPool clones, MultiSig controlled)
-SalvaMath   (calculateTokenAmountOut, calculateNGNsAmountOut)
+SalvaMath   (calculateTokenAmountOut, calculateNGNsAmountOut,
+             calculateExactNGNsAmountIn, calculateExactTokenAmountIn)
 ```
 
 ### Contract Summary

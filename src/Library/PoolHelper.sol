@@ -17,12 +17,36 @@ abstract contract PoolHelper is Errors {
         return DEPLOYER;
     }
 
-    function getExactTokenOut(uint256 ngnsAmountIn, uint256 exRate) public pure returns (uint256) {
+    function getExactTokenAmountOut(uint256 ngnsAmountIn, uint256 exRate)
+        public
+        pure
+        returns (uint256)
+    {
         return ngnsAmountIn.calculateTokenAmountOut(exRate, S_FACTOR);
     }
 
-    function getExactNGNsOut(uint256 tokenAmountIn, uint256 exRate) public pure returns (uint256) {
+    function getExactNGNsAmountOut(uint256 tokenAmountIn, uint256 exRate)
+        public
+        pure
+        returns (uint256)
+    {
         return tokenAmountIn.calculateNGNsAmountOut(exRate, S_FACTOR);
+    }
+
+    function getExactNGNsAmountIn(uint256 tokenAmountOut, uint256 exRate)
+        public
+        pure
+        returns (uint256)
+    {
+        return tokenAmountOut.calculateExactNGNsAmountIn(exRate, S_FACTOR);
+    }
+
+    function getExactTokenAmountIn(uint256 ngnsAmountOut, uint256 exRate)
+        public
+        pure
+        returns (uint256)
+    {
+        return ngnsAmountOut.calculateExactTokenAmountIn(exRate, S_FACTOR);
     }
 
     function _onlySupportedToken(address token) internal view {

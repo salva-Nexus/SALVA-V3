@@ -38,7 +38,7 @@ abstract contract SwapEngine is SalvaOracle {
         if (_exRate == 0) {
             revert Errors__Invalid_Rate(_exRate);
         }
-        uint256 swapTokenOut = getExactTokenOut(_ngnsAmountIn, _exRate);
+        uint256 swapTokenOut = getExactTokenAmountOut(_ngnsAmountIn, _exRate);
         IERC20(_ngnsToken).safeTransferFrom(_msgSender(), address(this), _ngnsAmountIn);
         IERC20(_swapTokenOut).safeTransfer(_receiver, swapTokenOut);
         emit SwappedToToken(_receiver, _swapTokenOut, _ngnsAmountIn, swapTokenOut);
@@ -50,17 +50,40 @@ abstract contract SwapEngine is SalvaOracle {
         address _swapTokenIn,
         address _ngnsTokenOut,
         uint256 _tokenAmountIn
-    ) external whenNotPaused returns (bool) {
+    ) public whenNotPaused returns (bool) {
         _onlySupportedToken(_swapTokenIn);
         _onlySupportedToken(_ngnsTokenOut);
         uint256 _exRate = _getSellRate();
         if (_exRate == 0) {
             revert Errors__Invalid_Rate(_exRate);
         }
-        uint256 swapNGNsOut = getExactNGNsOut(_tokenAmountIn, _exRate);
+        uint256 swapNGNsOut = getExactNGNsAmountOut(_tokenAmountIn, _exRate);
         IERC20(_swapTokenIn).safeTransferFrom(_msgSender(), address(this), _tokenAmountIn);
         IERC20(_ngnsTokenOut).safeTransfer(_receiver, swapNGNsOut);
         emit SwappedToNGNs(_receiver, _swapTokenIn, _tokenAmountIn, swapNGNsOut);
         return true;
+    }
+
+    function swapForExactTokenAmount(
+        address _receiver,
+        address _swapTokenOut,
+        address _ngnsTokenIn,
+        uint256 _tokenAmountOut
+    ) external whenNotPaused returns (bool) {
+        uint256 _exRate = _getBuyRate();
+        uint256 exactNGNsAmountIn = getExactNGNsAmountIn(_tokenAmountOut, _exRate);
+        return swapExactNGNAmountForToken(_receiver, _swapTokenOut, _ngnsTokenIn, exactNGNsAmountIn);
+    }
+
+    function swapForExactNGNAmount(
+        address _receiver,
+        address _swapTokenIn,
+        address _ngnsTokenOut,
+        uint256 _ngnsAmountOut
+    ) external whenNotPaused returns (bool) {
+        uint256 _exRate = _getSellRate();
+        uint256 exactTokenAmountIn = getExactTokenAmountIn(_ngnsAmountOut, _exRate);
+        return
+            swapExactTokenAmountForNGN(_receiver, _swapTokenIn, _ngnsTokenOut, exactTokenAmountIn);
     }
 }
