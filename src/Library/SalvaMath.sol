@@ -10,7 +10,7 @@ library SalvaMath {
         _amountOut = (_amountIn * _factor) / _exRate;
     }
 
-    function calculateNGNsAmountOut(uint256 _amountIn, uint256 _exRate, uint256 _factor)
+    function calculateNGNAmountOut(uint256 _amountIn, uint256 _exRate, uint256 _factor)
         internal
         pure
         returns (uint256 _amountOut)
@@ -18,7 +18,7 @@ library SalvaMath {
         _amountOut = (_amountIn * _exRate) / _factor;
     }
 
-    function calculateExactNGNsAmountIn(uint256 _tokenAmountOut, uint256 _exRate, uint256 _factor)
+    function calculateExactNGNAmountIn(uint256 _tokenAmountOut, uint256 _exRate, uint256 _factor)
         internal
         pure
         returns (uint256 _amountIn)

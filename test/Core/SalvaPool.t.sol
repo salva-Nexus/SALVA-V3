@@ -4,6 +4,7 @@ pragma solidity ^0.8.30;
 import { Errors } from "@Errors/Errors.sol";
 import { MockUSDC } from "@MockUSDC/MockUSDC.sol";
 import { Setup } from "@Setup/Setup.t.sol";
+import { console } from "forge-std/Test.sol";
 
 contract SalvaPool is Setup {
     function testSetup() external view {
@@ -95,7 +96,7 @@ contract SalvaPool is Setup {
         MOCKUSDC.approve(address(POOL), amount);
         POOL.swapExactTokenAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), amount);
 
-        uint256 expected = POOL.getExactNGNsAmountOut(amount, POOL._getSellRate());
+        uint256 expected = POOL.getExactNGNAmountOut(amount, POOL._getSellRate());
 
         assertEq(MOCKUSDC.balanceOf(user), 2_000e6 - amount);
         assertEq(MOCKNGNs.balanceOf(user), expected);
@@ -128,7 +129,7 @@ contract SalvaPool is Setup {
         MOCKNGNs.approve(address(POOL), type(uint256).max);
         POOL.swapForExactTokenAmount(user, address(MOCKUSDC), address(MOCKNGNs), amount);
 
-        uint256 expected = POOL.getExactNGNsAmountIn(amount, POOL._getBuyRate());
+        uint256 expected = POOL.getExactNGNAmountIn(amount, POOL._getBuyRate());
 
         assertEq(MOCKNGNs.balanceOf(user), 1_000_000e6 - expected);
         assertEq(MOCKUSDC.balanceOf(user), amount);

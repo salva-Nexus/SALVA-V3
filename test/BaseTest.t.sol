@@ -16,7 +16,7 @@ abstract contract BaseTest is Test {
     MockUSDC internal MOCKUSDC;
     MockNGNs internal MOCKNGNs;
     SalvaPool internal POOL;
-    uint256 internal INITIALBUYRATE = 1547_500000; // 1547.5 NGN per USD
+    uint256 internal INITIALBUYRATE = 1500e6;
     uint256 internal INITIALSELLRATE = 1563_250000;
 
     function _changePrank(address _newPrank) internal {
