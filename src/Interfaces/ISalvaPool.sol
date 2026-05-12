@@ -3,7 +3,8 @@ pragma solidity ^0.8.30;
 
 /**
  * @title ISalvaPool
- * @notice Full interface for Salva V3 P2P Pools handling swaps, rates, liquidity, and emergency states.
+ * @notice Full interface for Salva V3 P2P Pools handling swaps, rates, liquidity, and emergency
+ * states.
  */
 interface ISalvaPool {
     // --- Swap Events ---
