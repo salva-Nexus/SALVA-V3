@@ -9,3 +9,6 @@ DEPLOY-TO-BASE_TESTNET:
 DEPLOY-IMPL-TESTNET:
 	forge script script/DeployPool.s.sol:DeployPool --rpc-url ${BASE_SEPOLIA_RPC_URL} --account mainKey --broadcast --verify --etherscan-api-key ${ETHERSCAN_API_KEY}
 
+
+DEPLOY-IMPL-TESTNET1:
+	forge script script/DeployPool.s.sol:DeployPool --rpc-url ${BASE_SEPOLIA_RPC_URL} --account mainKey2 --broadcast --verify --etherscan-api-key ${ETHERSCAN_API_KEY}

@@ -3,11 +3,9 @@ pragma solidity ^0.8.30;
 
 /**
  * @title ISalvaPool
- * @notice Full interface for Salva V3 P2P Pools handling swaps, rates, liquidity, and emergency
- * states.
+ * @notice Full interface for Salva V3 P2P Pools handling swaps, rates, liquidity, and emergency states.
  */
 interface ISalvaPool {
-    event RoutingPoolUpdated(address indexed pool);
     // --- Swap Events ---
     event SwappedToToken(
         address indexed receiver, address indexed token, uint256 ngnsIn, uint256 tokenOut
@@ -32,7 +30,7 @@ interface ISalvaPool {
     event MinimumNgnAmountSet(uint256 amount);
     event MinimumTokenAmountSet(uint256 amount);
 
-    // --- Swap Functions ---
+    // --- Swap Functions (Input-Centric) ---
     function swapExactNGNAmountForToken(
         address _receiver,
         address _swapTokenOut,
@@ -45,6 +43,27 @@ interface ISalvaPool {
         address _swapTokenIn,
         address _ngnsTokenOut,
         uint256 _tokenAmountIn
+    ) external returns (bool);
+
+    // --- Swap Functions (Output-Centric) ---
+    /**
+     * @notice Swap variable NGNs for an exact amount of stablecoins/tokens.
+     */
+    function swapForExactTokenAmount(
+        address _receiver,
+        address _swapTokenOut,
+        address _ngnTokenIn,
+        uint256 _tokenAmountOut
+    ) external returns (bool);
+
+    /**
+     * @notice Swap variable stablecoins/tokens for an exact amount of NGNs.
+     */
+    function swapForExactNGNAmount(
+        address _receiver,
+        address _swapTokenIn,
+        address _ngnTokenOut,
+        uint256 _ngnAmountOut
     ) external returns (bool);
 
     // --- Rate Management ---
