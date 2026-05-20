@@ -21,7 +21,7 @@ contract DeployFactory is Script {
     function _deployFactory() internal deploy {
         SalvaPool poolImpl = new SalvaPool();
         PoolFactory factory = new PoolFactory(address(poolImpl));
-        
+
         console.log("FACTORY: ", address(factory));
     }
 }
