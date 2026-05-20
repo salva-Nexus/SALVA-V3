@@ -17,10 +17,7 @@ abstract contract Setup is BaseTest {
         _changePrank(MAINDEPLOYER);
         MULTISIG = new MockMultisig();
         SalvaPool poolImpl = new SalvaPool();
-        PoolFactory factoryImpl = new PoolFactory();
-        bytes memory data =
-            abi.encodeWithSignature("initialize(address,address)", address(poolImpl), MULTISIG);
-        POOLFACTORY = PoolFactory(address(new ERC1967Proxy(address(factoryImpl), data)));
+        POOLFACTORY = new PoolFactory(address(poolImpl));
         MOCKUSDC = MockUSDC(new MockUSDC(6));
         MOCKNGNs = MockNGNs(new MockNGNs(6));
 
