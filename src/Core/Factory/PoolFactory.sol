@@ -55,9 +55,10 @@ contract PoolFactory is Context {
      * @return pool The address of the newly deployed pool clone.
      */
     function deployPool() external returns (address pool) {
+        address sender = _msgSender();
         pool = _implementation.clone();
-        ISalvaPool(pool).initialize(_msgSender());
-        emit PoolDeployed(_msgSender(), pool);
+        ISalvaPool(pool).initialize(sender);
+        emit PoolDeployed(sender, pool);
     }
 
     // ─────────────────────────────────────────────────────────────────────────
