@@ -18,7 +18,7 @@ contract SalvaPool is SwapEngine {
      * @notice Allows LP to fund the pool.
      * @dev Emits LiquidityAdded for off-chain tracking.
      */
-    function provideLiquidity(address asset, uint256 amount) external returns (bool) {
+    function provideLiquidity(address asset, uint256 amount) external onlyDeployer returns (bool) {
         // Transfer assets from the LP's wallet to this pool contract
         IERC20(asset).safeTransferFrom(_msgSender(), address(this), amount);
 
