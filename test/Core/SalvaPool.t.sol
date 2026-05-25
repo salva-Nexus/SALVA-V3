@@ -153,6 +153,13 @@ contract SalvaPool is Setup {
         assertEq(MOCKNGNs.balanceOf(user), amount);
     }
 
+    function testOnlyDeployerCanCallProvideLiquidityFn(address _prank) external {
+        vm.assume(_prank != MAINDEPLOYER);
+        _changePrank(_prank);
+        vm.expectRevert(Errors.Errors__Not_Authorized.selector);
+        POOL.provideLiquidity(address(MOCKUSDC), 200_000e6);
+    }
+
     function testOnlyDeployerCanRemoveLiquidity(address _prank) external {
         vm.assume(_prank != MAINDEPLOYER);
         _changePrank(_prank);
