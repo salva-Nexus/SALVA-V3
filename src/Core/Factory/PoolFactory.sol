@@ -52,7 +52,7 @@ contract PoolFactory is Context {
      * @notice Deploys a new DeployPool clone for the caller.
      * @dev Initializes the clone with the caller as the pool deployer.
      *      Emits {PoolDeployed} for off-chain tracking.
-     * @return pool The address of the newly deployed pool clone.
+     * @return pool The address of the newly deployed pool clone..
      */
     function deployPool() external returns (address pool) {
         address sender = _msgSender();
