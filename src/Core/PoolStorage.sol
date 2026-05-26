@@ -10,6 +10,6 @@ abstract contract PoolStorage {
     uint128 internal _buyRate;
     uint128 internal _sellRate;
     uint128 internal _minNgnAmount;
-    uint128 internal _minTokenAmount;
+    uint128 internal _minUsdAmount;
     //
 }

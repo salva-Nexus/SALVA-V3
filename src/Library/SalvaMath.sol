@@ -2,7 +2,7 @@
 pragma solidity ^0.8.30;
 
 library SalvaMath {
-    function calculateTokenAmountOut(uint256 _amountIn, uint256 _exRate, uint256 _factor)
+    function calculateUSDAmountOut(uint256 _amountIn, uint256 _exRate, uint256 _factor)
         internal
         pure
         returns (uint256 _amountOut)
@@ -18,19 +18,19 @@ library SalvaMath {
         _amountOut = (_amountIn * _exRate) / _factor;
     }
 
-    function calculateExactNGNAmountIn(uint256 _tokenAmountOut, uint256 _exRate, uint256 _factor)
+    function calculateExactNGNAmountIn(uint256 _usdAmountOut, uint256 _exRate, uint256 _factor)
         internal
         pure
         returns (uint256 _amountIn)
     {
-        _amountIn = (_exRate * _tokenAmountOut) / _factor;
+        _amountIn = (_exRate * _usdAmountOut) / _factor;
     }
 
-    function calculateExactTokenAmountIn(uint256 _ngnsAmountOut, uint256 _exRate, uint256 _factor)
+    function calculateExactUSDAmountIn(uint256 _ngnAmountOut, uint256 _exRate, uint256 _factor)
         internal
         pure
         returns (uint256 _amountIn)
     {
-        return (_ngnsAmountOut * _factor) / _exRate;
+        return (_ngnAmountOut * _factor) / _exRate;
     }
 }

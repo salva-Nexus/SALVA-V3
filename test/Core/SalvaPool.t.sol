@@ -26,7 +26,7 @@ contract SalvaPool is Setup {
         _changePrank(user);
         mUSD.approve(address(POOL), 200e6);
         vm.expectRevert(Errors.Errors__Invalid_Swap_Token.selector);
-        POOL.swapExactTokenAmountForNGN(user, address(mUSD), address(MOCKNGNs), 200e6);
+        POOL.swapExactUSDAmountForNGN(user, address(mUSD), address(MOCKNGNs), 200e6);
     }
 
     function testOnlyDeployerCanPauseAndUnpause(address _prank) external {
@@ -49,21 +49,24 @@ contract SalvaPool is Setup {
 
         address user = makeAddr("user");
         MOCKUSDC.transfer(user, 400e6);
+        MOCKNGNs.transfer(user, 400_000e6);
         _changePrank(user);
-        MOCKUSDC.approve(address(POOL), 400e6);
-        vm.expectRevert(Errors.Errors__Not_Authorized.selector);
-        POOL.swapExactTokenAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), 200e6);
+        MOCKUSDC.approve(address(POOL), 200e6);
+        MOCKNGNs.approve(address(POOL), POOL.getExactNGNAmountOut(150e6, POOL._getSellRate()));
 
         vm.expectRevert(Errors.Errors__Not_Authorized.selector);
-        POOL.swapForExactNGNAmount(user, address(MOCKUSDC), address(MOCKNGNs), 200e6);
+        POOL.swapExactUSDAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), 200e6);
+
+        vm.expectRevert(Errors.Errors__Not_Authorized.selector);
+        POOL.swapForExactUSDAmount(user, address(MOCKUSDC), address(MOCKNGNs), 200e6);
 
         _changePrank(MAINDEPLOYER);
         POOL.unpause();
 
         // should work
         _changePrank(user);
-        POOL.swapExactTokenAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), 200e6);
-        POOL.swapForExactNGNAmount(user, address(MOCKUSDC), address(MOCKNGNs), 200e6);
+        POOL.swapExactUSDAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), 200e6);
+        POOL.swapForExactUSDAmount(user, address(MOCKUSDC), address(MOCKNGNs), 150e6);
     }
 
     function testSwapExactAmountToToken() external {
@@ -76,9 +79,9 @@ contract SalvaPool is Setup {
         uint256 amount = 1547_500000 * 2;
         _changePrank(user);
         MOCKNGNs.approve(address(POOL), amount);
-        POOL.swapExactNGNAmountForToken(user, address(MOCKUSDC), address(MOCKNGNs), amount);
+        POOL.swapExactNGNAmountForUSD(user, address(MOCKUSDC), address(MOCKNGNs), amount);
 
-        uint256 expected = POOL.getExactTokenAmountOut(amount, POOL._getBuyRate());
+        uint256 expected = POOL.getExactUSDAmountOut(amount, POOL._getBuyRate());
 
         assertEq(MOCKNGNs.balanceOf(user), 1_000_000e6 - amount);
         assertEq(MOCKUSDC.balanceOf(user), expected);
@@ -94,7 +97,7 @@ contract SalvaPool is Setup {
         uint256 amount = 5e6;
         _changePrank(user);
         MOCKUSDC.approve(address(POOL), amount);
-        POOL.swapExactTokenAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), amount);
+        POOL.swapExactUSDAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), amount);
 
         uint256 expected = POOL.getExactNGNAmountOut(amount, POOL._getSellRate());
 
@@ -114,10 +117,10 @@ contract SalvaPool is Setup {
         MOCKUSDC.approve(address(POOL), amount);
 
         vm.expectRevert(abi.encodeWithSelector(Errors.Errors__Invalid_Rate.selector, 0));
-        POOL.swapExactTokenAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), amount);
+        POOL.swapExactUSDAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), amount);
     }
 
-    function testSwapForExactTokenAmount() external {
+    function testSwapForExactUSDAmount() external {
         address user = makeAddr("user");
         _changePrank(MAINDEPLOYER);
         MOCKNGNs.mint(user, 1_000_000e6);
@@ -127,7 +130,7 @@ contract SalvaPool is Setup {
         uint256 amount = 2e6;
         _changePrank(user);
         MOCKNGNs.approve(address(POOL), type(uint256).max);
-        POOL.swapForExactTokenAmount(user, address(MOCKUSDC), address(MOCKNGNs), amount);
+        POOL.swapForExactUSDAmount(user, address(MOCKUSDC), address(MOCKNGNs), amount);
 
         uint256 expected = POOL.getExactNGNAmountIn(amount, POOL._getBuyRate());
 
@@ -147,7 +150,7 @@ contract SalvaPool is Setup {
         MOCKUSDC.approve(address(POOL), type(uint256).max);
         POOL.swapForExactNGNAmount(user, address(MOCKUSDC), address(MOCKNGNs), amount);
 
-        uint256 expected = POOL.getExactTokenAmountIn(amount, POOL._getSellRate());
+        uint256 expected = POOL.getExactUSDAmountIn(amount, POOL._getSellRate());
 
         assertEq(MOCKUSDC.balanceOf(user), 2_000e6 - expected);
         assertEq(MOCKNGNs.balanceOf(user), amount);
@@ -181,13 +184,13 @@ contract SalvaPool is Setup {
         _changePrank(user);
         MOCKNGNs.approve(address(POOL), ngnAmount);
         vm.expectRevert(abi.encodeWithSelector(Errors.Errors__Amount_Too_Low.selector, ngnAmount));
-        POOL.swapExactNGNAmountForToken(user, address(MOCKUSDC), address(MOCKNGNs), ngnAmount);
+        POOL.swapExactNGNAmountForUSD(user, address(MOCKUSDC), address(MOCKNGNs), ngnAmount);
 
         // USD
         uint256 usdAmount = 1e6;
         _changePrank(user);
         MOCKUSDC.approve(address(POOL), usdAmount);
         vm.expectRevert(abi.encodeWithSelector(Errors.Errors__Amount_Too_Low.selector, usdAmount));
-        POOL.swapExactTokenAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), usdAmount);
+        POOL.swapExactUSDAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), usdAmount);
     }
 }

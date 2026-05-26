@@ -8,12 +8,12 @@ pragma solidity ^0.8.30;
  */
 interface ISalvaPool {
     // --- Swap Events ---
-    event SwappedToToken(
-        address indexed receiver, address indexed token, uint256 ngnsIn, uint256 tokenOut
+    event SwappedToUSD(
+        address indexed receiver, address indexed token, uint256 ngnAmountIn, uint256 usdAmountOut
     );
 
-    event SwappedToNGNs(
-        address indexed receiver, address indexed token, uint256 tokenIn, uint256 ngnsOut
+    event SwappedToNGN(
+        address indexed receiver, address indexed token, uint256 usdAmountIn, uint256 ngnAmountOut
     );
 
     // --- Rate Events ---
@@ -29,32 +29,32 @@ interface ISalvaPool {
     event LiquidityRemoved(address indexed asset, uint256 amount);
 
     event MinimumNgnAmountSet(uint256 amount);
-    event MinimumTokenAmountSet(uint256 amount);
+    event MinimumUsdAmountSet(uint256 amount);
 
     // --- Swap Functions (Input-Centric) ---
-    function swapExactNGNAmountForToken(
+    function swapExactNGNAmountForUSD(
         address _receiver,
-        address _swapTokenOut,
-        address _ngnsToken,
-        uint256 _ngnsAmountIn
+        address _usdTokenOut,
+        address _ngnTokenIn,
+        uint256 _ngnAmountIn
     ) external returns (bool);
 
-    function swapExactTokenAmountForNGN(
+    function swapExactUSDAmountForNGN(
         address _receiver,
-        address _swapTokenIn,
-        address _ngnsTokenOut,
-        uint256 _tokenAmountIn
+        address _usdTokenIn,
+        address _ngnTokenOut,
+        uint256 _usdAmountIn
     ) external returns (bool);
 
     // --- Swap Functions (Output-Centric) ---
     /**
      * @notice Swap variable NGNs for an exact amount of stablecoins/tokens.
      */
-    function swapForExactTokenAmount(
+    function swapForExactUSDAmount(
         address _receiver,
-        address _swapTokenOut,
+        address _usdTokenOut,
         address _ngnTokenIn,
-        uint256 _tokenAmountOut
+        uint256 _usdAmountOut
     ) external returns (bool);
 
     /**
@@ -62,7 +62,7 @@ interface ISalvaPool {
      */
     function swapForExactNGNAmount(
         address _receiver,
-        address _swapTokenIn,
+        address _usdTokenIn,
         address _ngnTokenOut,
         uint256 _ngnAmountOut
     ) external returns (bool);

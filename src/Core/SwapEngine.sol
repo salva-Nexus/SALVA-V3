@@ -26,14 +26,14 @@ abstract contract SwapEngine is SalvaOracle {
         return true;
     }
 
-    function swapExactNGNAmountForToken(
+    function swapExactNGNAmountForUSD(
         address _receiver,
-        address _swapTokenOut,
-        address _ngnToken,
+        address _usdTokenOut,
+        address _ngnTokenIn,
         uint256 _ngnAmountIn
     ) public whenNotPaused returns (bool) {
-        _onlySupportedToken(_swapTokenOut);
-        _onlySupportedToken(_ngnToken);
+        _onlySupportedToken(_usdTokenOut);
+        _onlySupportedToken(_ngnTokenIn);
         if (_ngnAmountIn < _minNgnAmount) {
             revert Errors__Amount_Too_Low(_ngnAmountIn);
         }
@@ -41,54 +41,87 @@ abstract contract SwapEngine is SalvaOracle {
         if (_exRate == 0) {
             revert Errors__Invalid_Rate(_exRate);
         }
-        uint256 swapTokenOut = getExactTokenAmountOut(_ngnAmountIn, _exRate);
-        IERC20(_ngnToken).safeTransferFrom(_msgSender(), address(this), _ngnAmountIn);
-        IERC20(_swapTokenOut).safeTransfer(_receiver, swapTokenOut);
-        emit SwappedToToken(_receiver, _swapTokenOut, _ngnAmountIn, swapTokenOut);
-        return true;
+        uint256 usdAmountOut = getExactUSDAmountOut(_ngnAmountIn, _exRate);
+
+        emit SwappedToUSD(_receiver, _usdTokenOut, _ngnAmountIn, usdAmountOut);
+        return _executeSwap(_ngnTokenIn, _usdTokenOut, _receiver, _ngnAmountIn, usdAmountOut, false);
     }
 
-    function swapExactTokenAmountForNGN(
+    function swapExactUSDAmountForNGN(
         address _receiver,
-        address _swapTokenIn,
+        address _usdTokenIn,
         address _ngnTokenOut,
-        uint256 _tokenAmountIn
+        uint256 _usdAmountIn
     ) public whenNotPaused returns (bool) {
-        _onlySupportedToken(_swapTokenIn);
+        _onlySupportedToken(_usdTokenIn);
         _onlySupportedToken(_ngnTokenOut);
-        if (_tokenAmountIn < _minTokenAmount) {
-            revert Errors__Amount_Too_Low(_tokenAmountIn);
+        if (_usdAmountIn < _minUsdAmount) {
+            revert Errors__Amount_Too_Low(_usdAmountIn);
         }
         uint256 _exRate = _getSellRate();
         if (_exRate == 0) {
             revert Errors__Invalid_Rate(_exRate);
         }
-        uint256 swapNGNOut = getExactNGNAmountOut(_tokenAmountIn, _exRate);
-        IERC20(_swapTokenIn).safeTransferFrom(_msgSender(), address(this), _tokenAmountIn);
-        IERC20(_ngnTokenOut).safeTransfer(_receiver, swapNGNOut);
-        emit SwappedToNGNs(_receiver, _swapTokenIn, _tokenAmountIn, swapNGNOut);
-        return true;
+        uint256 ngnAmountOut = getExactNGNAmountOut(_usdAmountIn, _exRate);
+        emit SwappedToNGN(_receiver, _usdTokenIn, _usdAmountIn, ngnAmountOut);
+        return _executeSwap(_ngnTokenOut, _usdTokenIn, _receiver, ngnAmountOut, _usdAmountIn, true);
     }
 
-    function swapForExactTokenAmount(
+    function swapForExactUSDAmount(
         address _receiver,
-        address _swapTokenOut,
+        address _usdTokenOut,
         address _ngnTokenIn,
-        uint256 _tokenAmountOut
+        uint256 _usdAmountOut
     ) external whenNotPaused returns (bool) {
+        _onlySupportedToken(_usdTokenOut);
+        _onlySupportedToken(_ngnTokenIn);
         uint256 _exRate = _getBuyRate();
-        uint256 exactNGNAmountIn = getExactNGNAmountIn(_tokenAmountOut, _exRate);
-        return swapExactNGNAmountForToken(_receiver, _swapTokenOut, _ngnTokenIn, exactNGNAmountIn);
+        uint256 exactNGNAmountIn = getExactNGNAmountIn(_usdAmountOut, _exRate);
+        if (exactNGNAmountIn < _minNgnAmount) {
+            revert Errors__Amount_Too_Low(exactNGNAmountIn);
+        }
+        emit SwappedToUSD(_receiver, _usdTokenOut, exactNGNAmountIn, _usdAmountOut);
+        return _executeSwap(
+            _ngnTokenIn, _usdTokenOut, _receiver, exactNGNAmountIn, _usdAmountOut, false
+        );
     }
 
     function swapForExactNGNAmount(
         address _receiver,
-        address _swapTokenIn,
+        address _usdTokenIn,
         address _ngnTokenOut,
         uint256 _ngnAmountOut
     ) external whenNotPaused returns (bool) {
+        _onlySupportedToken(_usdTokenIn);
+        _onlySupportedToken(_ngnTokenOut);
         uint256 _exRate = _getSellRate();
-        uint256 exactTokenAmountIn = getExactTokenAmountIn(_ngnAmountOut, _exRate);
-        return swapExactTokenAmountForNGN(_receiver, _swapTokenIn, _ngnTokenOut, exactTokenAmountIn);
+        uint256 exactUsdAmountIn = getExactUSDAmountIn(_ngnAmountOut, _exRate);
+        if (exactUsdAmountIn < _minUsdAmount) {
+            revert Errors__Amount_Too_Low(exactUsdAmountIn);
+        }
+        // uint256 swapNGNOut = getExactNGNAmountOut(exactUsdAmountIn, _exRate);
+        emit SwappedToNGN(_receiver, _usdTokenIn, exactUsdAmountIn, _ngnAmountOut);
+        return
+            _executeSwap(
+                _ngnTokenOut, _usdTokenIn, _receiver, _ngnAmountOut, exactUsdAmountIn, true
+            );
+    }
+
+    function _executeSwap(
+        address _ngnToken,
+        address _usdToken,
+        address _receiver,
+        uint256 _ngnAmount,
+        uint256 _usdAmount,
+        bool _ngnOut
+    ) internal returns (bool) {
+        if (!_ngnOut) {
+            IERC20(_ngnToken).safeTransferFrom(_msgSender(), address(this), _ngnAmount);
+            IERC20(_usdToken).safeTransfer(_receiver, _usdAmount);
+        } else {
+            IERC20(_usdToken).safeTransferFrom(_msgSender(), address(this), _usdAmount);
+            IERC20(_ngnToken).safeTransfer(_receiver, _ngnAmount);
+        }
+        return true;
     }
 }

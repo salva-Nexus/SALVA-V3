@@ -17,40 +17,40 @@ abstract contract PoolHelper is Errors {
         return uint256(_minNgnAmount);
     }
 
-    function getMinuimumTokenAmount() external view returns (uint256) {
-        return uint256(_minTokenAmount);
+    function getMinuimumUSDAmount() external view returns (uint256) {
+        return uint256(_minUsdAmount);
     }
 
-    function getExactTokenAmountOut(uint256 ngnsAmountIn, uint256 exRate)
+    function getExactUSDAmountOut(uint256 ngnAmountIn, uint256 exRate)
         public
         pure
         returns (uint256)
     {
-        return ngnsAmountIn.calculateTokenAmountOut(exRate, S_FACTOR);
+        return ngnAmountIn.calculateUSDAmountOut(exRate, S_FACTOR);
     }
 
-    function getExactNGNAmountOut(uint256 tokenAmountIn, uint256 exRate)
+    function getExactNGNAmountOut(uint256 usdAmountIn, uint256 exRate)
         public
         pure
         returns (uint256)
     {
-        return tokenAmountIn.calculateNGNAmountOut(exRate, S_FACTOR);
+        return usdAmountIn.calculateNGNAmountOut(exRate, S_FACTOR);
     }
 
-    function getExactNGNAmountIn(uint256 tokenAmountOut, uint256 exRate)
+    function getExactNGNAmountIn(uint256 usdAmountOut, uint256 exRate)
         public
         pure
         returns (uint256)
     {
-        return tokenAmountOut.calculateExactNGNAmountIn(exRate, S_FACTOR);
+        return usdAmountOut.calculateExactNGNAmountIn(exRate, S_FACTOR);
     }
 
-    function getExactTokenAmountIn(uint256 ngnAmountOut, uint256 exRate)
+    function getExactUSDAmountIn(uint256 ngnAmountOut, uint256 exRate)
         public
         pure
         returns (uint256)
     {
-        return ngnAmountOut.calculateExactTokenAmountIn(exRate, S_FACTOR);
+        return ngnAmountOut.calculateExactUSDAmountIn(exRate, S_FACTOR);
     }
 
     function getDeployer() external view returns (address) {

@@ -51,8 +51,12 @@ contract SalvaPool is SwapEngine {
 
     function setMinimumTokenAmount(uint256 amount) external onlyDeployer returns (bool) {
         // forge-lint: disable-next-line(unsafe-typecast)
-        _minTokenAmount = uint128(amount);
-        emit MinimumTokenAmountSet(amount);
+        _minUsdAmount = uint128(amount);
+        emit MinimumUsdAmountSet(amount);
         return true;
+    }
+
+    function VERSION() external pure returns (uint256) {
+        return 3.0;
     }
 }
