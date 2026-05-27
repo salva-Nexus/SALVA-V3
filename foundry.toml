@@ -16,7 +16,7 @@ optimizer_runs = 100000
 
 [fmt]
 line_length = 100              
-tab_width = 4                 
+tab_width = 2                 
 bracket_spacing = true         
 
 multiline_func_header = "attributes_first" 

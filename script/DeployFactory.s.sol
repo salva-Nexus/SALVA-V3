@@ -8,20 +8,20 @@ import { Script } from "forge-std/Script.sol";
 import { console } from "forge-std/Test.sol";
 
 contract DeployFactory is Script {
-    modifier deploy() {
-        vm.startBroadcast();
-        _;
-        vm.stopBroadcast();
-    }
+  modifier deploy() {
+    vm.startBroadcast();
+    _;
+    vm.stopBroadcast();
+  }
 
-    function run() external {
-        _deployFactory();
-    }
+  function run() external {
+    _deployFactory();
+  }
 
-    function _deployFactory() internal deploy {
-        SalvaPool poolImpl = new SalvaPool();
-        PoolFactory factory = new PoolFactory(address(poolImpl));
+  function _deployFactory() internal deploy {
+    SalvaPool poolImpl = new SalvaPool();
+    PoolFactory factory = new PoolFactory(address(poolImpl));
 
-        console.log("FACTORY: ", address(factory));
-    }
+    console.log("FACTORY: ", address(factory));
+  }
 }
