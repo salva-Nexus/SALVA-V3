@@ -80,7 +80,7 @@ abstract contract SwapEngine is SalvaOracle {
     if (exactUsdAmountIn < _minUsdAmount) {
       revert Errors__Amount_Too_Low(exactUsdAmountIn);
     }
-    // uint256 swapNGNOut = getExactNGNAmountOut(exactUsdAmountIn, _exRate);
+
     emit SwappedToNGN(_receiver, _usdTokenIn, exactUsdAmountIn, _ngnAmountOut);
     return _executeSwap(_ngnTokenOut, _usdTokenIn, _receiver, _ngnAmountOut, exactUsdAmountIn, true);
   }

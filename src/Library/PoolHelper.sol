@@ -41,6 +41,10 @@ abstract contract PoolHelper is Errors {
     return DEPLOYER;
   }
 
+  function isPaused() external view returns (bool) {
+    return PAUSED;
+  }
+
   function _onlySupportedToken(address token) internal view {
     uint256 tokenDecimal = IERC20Metadata(token).decimals();
     if (tokenDecimal != SUPPORTED_TOKEN_DECIMAL) {
