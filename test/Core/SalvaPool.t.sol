@@ -2,6 +2,7 @@
 pragma solidity ^0.8.30;
 
 import { Errors } from "@Errors/Errors.sol";
+import { MockNGNs } from "@MockNGNs/MockNGNs.sol";
 import { MockUSDC } from "@MockUSDC/MockUSDC.sol";
 import { Setup } from "@Setup/Setup.t.sol";
 import { console } from "forge-std/Test.sol";
@@ -185,6 +186,35 @@ contract SalvaPool is Setup {
         MOCKUSDC.approve(address(POOL), usdAmount);
         vm.expectRevert(abi.encodeWithSelector(Errors.Errors__Amount_Too_Low.selector, usdAmount));
         POOL.swapExactUSDAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), usdAmount);
+    }
+
+    function test_Only_Supported_Ngn_Decimal() external {
+        address user = makeAddr("user");
+        _changePrank(MAINDEPLOYER);
+        MOCKNGNs = MockNGNs(new MockNGNs(18));
+        MOCKNGNs.mint(user, 1_000_000e18);
+        _changePrank(user);
+        MOCKNGNs.approve(address(POOL), 10_000e18);
+
+        vm.expectRevert(
+            abi.encodeWithSelector(Errors.Errors__Unsupported_Ngn_Token.selector, address(MOCKNGNs))
+        );
+        POOL.swapExactNGNAmountForUSD(user, address(MOCKUSDC), address(MOCKNGNs), 2000e18);
+
+        vm.expectRevert(
+            abi.encodeWithSelector(Errors.Errors__Unsupported_Ngn_Token.selector, address(MOCKNGNs))
+        );
+        POOL.swapForExactUSDAmount(user, address(MOCKUSDC), address(MOCKNGNs), 2000e18);
+
+        vm.expectRevert(
+            abi.encodeWithSelector(Errors.Errors__Unsupported_Ngn_Token.selector, address(MOCKNGNs))
+        );
+        POOL.swapForExactNGNAmount(user, address(MOCKUSDC), address(MOCKNGNs), 2000e18);
+
+        vm.expectRevert(
+            abi.encodeWithSelector(Errors.Errors__Unsupported_Ngn_Token.selector, address(MOCKNGNs))
+        );
+        POOL.swapExactUSDAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), 2000e18);
     }
 
     function test_Rate_Scaling_Issue() external view {

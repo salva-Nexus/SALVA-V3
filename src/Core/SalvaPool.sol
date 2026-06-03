@@ -47,7 +47,6 @@ contract SalvaPool is SwapEngine {
     }
 
     function setMinimumNgnAmount(uint256 amount) external onlyDeployer returns (bool) {
-        // forge-lint:
         // disable-next-line(unsafe-typecast)
         minNgnAmount = uint128(amount);
         emit MinimumNgnAmountSet(amount);
@@ -55,7 +54,6 @@ contract SalvaPool is SwapEngine {
     }
 
     function setMinimumTokenAmount(uint256 amount) external onlyDeployer returns (bool) {
-        // forge-lint:
         // disable-next-line(unsafe-typecast)
         minUsdAmount = uint128(amount);
         emit MinimumUsdAmountSet(amount);

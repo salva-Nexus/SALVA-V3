@@ -69,6 +69,9 @@ abstract contract SwapEngine is SalvaOracle {
         uint256 _usdAmountOut
     ) external whenNotPaused onlySupportedNgnDecimal(_ngnTokenIn) returns (bool) {
         uint256 exRate = _getBuyRate();
+        if (exRate == 0) {
+            revert Errors__Invalid_Rate(exRate);
+        }
         uint256 exactNgnAmountIn = getExactNGNAmountIn(_usdTokenOut, _usdAmountOut, exRate);
         if (exactNgnAmountIn < minNgnAmount) {
             revert Errors__Amount_Too_Low(exactNgnAmountIn);

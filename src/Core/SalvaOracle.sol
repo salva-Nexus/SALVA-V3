@@ -7,7 +7,6 @@ import { Modifier } from "@Modifier/Modifier.sol";
 abstract contract SalvaOracle is Modifier, ISalvaPool {
     function updateBuyRate(uint256 _exRate) external onlyDeployer returns (bool) {
         uint256 oldRate = uint256(buyRate);
-        // forge-lint:
         // disable-next-line(unsafe-typecast)
         buyRate = uint128(_exRate);
         emit BuyRateUpdated(oldRate, _exRate);
@@ -16,7 +15,6 @@ abstract contract SalvaOracle is Modifier, ISalvaPool {
 
     function updateSellRate(uint256 _exRate) external onlyDeployer returns (bool) {
         uint256 oldRate = uint256(sellRate);
-        // forge-lint:
         // disable-next-line(unsafe-typecast)
         sellRate = uint128(_exRate);
         emit SellRateUpdated(oldRate, _exRate);
