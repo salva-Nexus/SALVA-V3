@@ -141,9 +141,10 @@ SalvaMath   (calculateTokenAmountOut, calculateNGNsAmountOut,
 
 ## 🌍 Deployments
 
-| Network | Purpose |
-| :--- | :--- |
-| **Base L2** | Salva native wallet — low gas |
+| Network |
+| :--- |
+| **Base L2** |
+| **BSC L1** |
 
 ---
 
