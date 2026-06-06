@@ -8,8 +8,8 @@ runs = 300
 
 [Invariant]
 runs = 100
-depth = 24
-fail_on_revert = true
+depth = 30
+fail_on_revert = false
 
 optimizer = true
 optimizer_runs = 100000

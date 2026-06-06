@@ -70,18 +70,6 @@ interface ISalvaPool {
         uint256 _ngnAmountOut
     ) external returns (bool);
 
-    // --- Rate Management ---
-    function updateBuyRate(uint256 _exRate) external returns (bool);
-    function updateSellRate(uint256 _exRate) external returns (bool);
-
-    // --- Liquidity Management ---
-    function provideLiquidity(address asset, uint256 amount) external returns (bool);
-    function removeLiquidity(address asset, uint256 amount) external returns (bool);
-
     // --- Initialization ---
     function initialize(address deployer) external;
-
-    // --- Emergency Control ---
-    function pause() external returns (bool);
-    function unpause() external returns (bool);
 }
