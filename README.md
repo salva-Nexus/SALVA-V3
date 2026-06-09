@@ -38,7 +38,7 @@
 
 The entire Nigerian crypto market runs on P2P — Binance P2P, Bybit P2P, LocalBitcoins. Every single one requires a merchant to be online, accept the order, confirm payment, and manually release crypto. The whole flow can take 10–30 minutes minimum. If the merchant is slow or offline, you are stuck.
 
-The deeper problem is that NGN cannot be traded on any AMM. AMMs determine price algorithmically from pool ratios — but the Naira exchange rate is set by the real-world fiat market, not on-chain supply and demand. The moment an AMM pool is funded with NGNs, arbitrageurs can drain it instantly by exploiting the gap between the on-chain price and the actual fiat rate. The pool breaks before it can serve a single real user.
+The deeper problem is that NGN cannot be traded on any AMM. AMMs determine price algorithmically from pool ratios — but the Naira exchange rate is set by the real-world fiat market, not on-chain supply and demand. The moment an AMM pool is funded with a Naira Stablecoin, arbitrageurs can drain it instantly by exploiting the gap between the on-chain price and the actual fiat rate. The pool breaks before it can serve a single real user.
 
 Salva V3 solves this with an oracle-gated model. The LP sets the rate manually from the live market, and the pool executes swaps at exactly that rate — no algorithmic pricing, no arbitrage surface, no pool drain.
 
@@ -46,7 +46,7 @@ Salva V3 solves this with an oracle-gated model. The LP sets the rate manually f
 
 ## ✨ The Salva V3 Solution
 
-Salva V3 is an on-chain P2P liquidity pool that enables instant, permissionless exchange between **NGNs** (Nigerian Naira stablecoin) and **USDC / USDT** on Base.
+Salva V3 is an on-chain P2P liquidity pool that enables instant, permissionless exchange between a Naira stablecoin like **NGNs / cNGN**  and **USDC / USDT** on Base.
 
 LPs fund their pool once, set their rates, and go to sleep. The pool executes swaps automatically — 24/7, on-chain, with no intermediary and no off-chain backend involved.
 
@@ -109,19 +109,18 @@ Rates are stored as `uint128` with 6 decimal precision.
 
 ```
 SalvaPool  (initialize, provideLiquidity, removeLiquidity)
-└── SwapEngine  (swapExactNGNAmountForToken, swapExactTokenAmountForNGN,
-│               swapForExactTokenAmount, swapForExactNGNAmount, pause, unpause)
+└── SwapEngine  (swapExactNGNAmountForToken, swapExactUSDAmountForNGN,
+│               swapForExactUSDAmount, swapForExactNGNAmount, pause, unpause)
     └── SalvaOracle  (updateBuyRate, updateSellRate, _getBuyRate, _getSellRate)
         └── Modifier  (onlyDeployer, whenNotPaused, onlyUninitialized)
             └── PoolHelper  (availableLiquidity, getDeployer,
-            │               getExactTokenAmountOut, getExactNGNsAmountOut,
-            │               getExactNGNsAmountIn, getExactTokenAmountIn,
-            │               _onlySupportedToken)
-                └── PoolStorage  (S_FACTOR, SUPPORTED_TOKEN_DECIMAL, DEPLOYER, PAUSED, rates)
+            │               getExactUSDAmountOut, getExactNGNAmountOut,
+            │               getExactNGNAmountIn, getExactUSDAmountIn,)
+                └── PoolStorage  (NGN_DECIMALS, NGN_PRECISION, TOKEN_DECIMALS_18, TOKEN_PRECISION_18, DECIMAL_NORMALIZER, deployer, paused ...)
 
-PoolFactory  (UUPS proxy — deploys EIP-1167 SalvaPool clones, MultiSig controlled)
-SalvaMath   (calculateTokenAmountOut, calculateNGNsAmountOut,
-             calculateExactNGNsAmountIn, calculateExactTokenAmountIn)
+PoolFactory  (UUPS proxy — deploys EIP-1167 SalvaPool clones)
+SalvaMath   (calculateTokenAmountOut, calculateNGNAmountOut,
+             calculateExactNGNAmountIn, calculateExactTokenAmountIn)
 ```
 
 ### Contract Summary
@@ -143,8 +142,8 @@ SalvaMath   (calculateTokenAmountOut, calculateNGNsAmountOut,
 
 | Network |
 | :--- |
-| **Base L2** |
-| **BSC L1** |
+| **Base Chain** |
+| **BNB Smart Chain** |
 
 ---
 
@@ -173,7 +172,7 @@ forge test
 forge test -vvv
 
 # Run a specific test
-forge test --match-test testSwapExactAmountToToken -vvvv
+forge test --mt testSwapExactAmountToToken -vvvv
 ```
 
 ---
@@ -186,6 +185,6 @@ Distributed under the MIT License. See [`LICENSE`](./LICENSE) for more informati
 
 <div align="center">
 
-Built on [Base](https://base.org) &nbsp;·&nbsp; On-Chain Naira Swap Pool &nbsp;·&nbsp; (https://salva-nexus.org)
+On-Chain Naira Swap Pool &nbsp;·&nbsp; (https://salva-nexus.org)
 
 </div>
