@@ -49,12 +49,12 @@ abstract contract SwapEngine is SalvaOracle {
         address _ngnTokenIn,
         uint256 _ngnAmountIn
     ) public whenNotPaused onlySupportedNgnDecimal(_ngnTokenIn) returns (bool) {
-        if (_ngnAmountIn < minNgnAmount) {
-            revert Errors__Amount_Too_Low(_ngnAmountIn);
-        }
         uint256 exRate = _getBuyRate();
         if (exRate == 0) {
             revert Errors__Invalid_Rate(exRate);
+        }
+        if (_ngnAmountIn < minNgnAmount) {
+            revert Errors__Amount_Too_Low(_ngnAmountIn);
         }
         uint256 usdAmountOut = getExactUSDAmountOut(_usdTokenOut, _ngnAmountIn, exRate);
 
@@ -91,12 +91,12 @@ abstract contract SwapEngine is SalvaOracle {
         address _ngnTokenOut,
         uint256 _usdAmountIn
     ) public whenNotPaused onlySupportedNgnDecimal(_ngnTokenOut) returns (bool) {
-        if (_usdAmountIn < minUsdAmount) {
-            revert Errors__Amount_Too_Low(_usdAmountIn);
-        }
         uint256 exRate = _getSellRate();
         if (exRate == 0) {
             revert Errors__Invalid_Rate(exRate);
+        }
+        if (_usdAmountIn < minUsdAmount) {
+            revert Errors__Amount_Too_Low(_usdAmountIn);
         }
         uint256 ngnAmountOut = getExactNGNAmountOut(_usdTokenIn, _usdAmountIn, exRate);
         emit SwappedToNGN(_receiver, _usdTokenIn, _usdAmountIn, ngnAmountOut);
@@ -110,6 +110,9 @@ abstract contract SwapEngine is SalvaOracle {
         uint256 _ngnAmountOut
     ) external whenNotPaused onlySupportedNgnDecimal(_ngnTokenOut) returns (bool) {
         uint256 exRate = _getSellRate();
+        if (exRate == 0) {
+            revert Errors__Invalid_Rate(exRate);
+        }
         uint256 exactUsdAmountIn = getExactUSDAmountIn(_usdTokenIn, _ngnAmountOut, exRate);
         if (exactUsdAmountIn < minUsdAmount) {
             revert Errors__Amount_Too_Low(exactUsdAmountIn);
