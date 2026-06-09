@@ -87,13 +87,13 @@ Four swap functions are available depending on whether the user knows their exac
 
 ```solidity
 // Know exactly how much NGNs you want to spend
-POOL.swapExactNGNAmountForToken(receiver, USDC, NGNs, 3095e6)
+POOL.swapExactNGNAmountForUSD(receiver, USDC, NGNs, 3095e6)
 
 // Know exactly how much USDC you want to spend
-POOL.swapExactTokenAmountForNGN(receiver, USDC, NGNs, 2e6)
+POOL.swapExactUSDAmountForNGN(receiver, USDC, NGNs, 2e6)
 
 // Know exactly how much USDC you want to receive
-POOL.swapForExactTokenAmount(receiver, USDC, NGNs, 2e6)
+POOL.swapForExactUSDAmount(receiver, USDC, NGNs, 2e6)
 
 // Know exactly how much NGNs you want to receive
 POOL.swapForExactNGNAmount(receiver, USDC, NGNs, 3095e6)
@@ -109,7 +109,7 @@ Rates are stored as `uint128` with 6 decimal precision.
 
 ```
 SalvaPool  (initialize, provideLiquidity, removeLiquidity)
-└── SwapEngine  (swapExactNGNAmountForToken, swapExactUSDAmountForNGN,
+└── SwapEngine  (swapExactNGNAmountForUSD, swapExactUSDAmountForNGN,
 │               swapForExactUSDAmount, swapForExactNGNAmount, pause, unpause)
     └── SalvaOracle  (updateBuyRate, updateSellRate, _getBuyRate, _getSellRate)
         └── Modifier  (onlyDeployer, whenNotPaused, onlyUninitialized)
@@ -119,8 +119,8 @@ SalvaPool  (initialize, provideLiquidity, removeLiquidity)
                 └── PoolStorage  (NGN_DECIMALS, NGN_PRECISION, TOKEN_DECIMALS_18, TOKEN_PRECISION_18, DECIMAL_NORMALIZER, deployer, paused ...)
 
 PoolFactory  (UUPS proxy — deploys EIP-1167 SalvaPool clones)
-SalvaMath   (calculateTokenAmountOut, calculateNGNAmountOut,
-             calculateExactNGNAmountIn, calculateExactTokenAmountIn)
+SalvaMath   (calculateUSDAmountOut, calculateNGNAmountOut,
+             calculateExactNGNAmountIn, calculateExactUSDAmountIn)
 ```
 
 ### Contract Summary
