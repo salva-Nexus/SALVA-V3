@@ -138,12 +138,12 @@ SalvaMath   (calculateUSDAmountOut, calculateNGNAmountOut,
 
 ---
 
-## 🌍 Deployments
+## 🌍 Deployments (SALVA POOLS FACTORY)
 
 | Network |
 | :--- |
-| **Base Chain** |
-| **BNB Smart Chain** |
+| **Base Chain** - 0xa13D80CCa616CB89D8146b771987ad91B2195Dac|
+| **BNB Smart Chain** - 0xd4Be95F31FCED543002Fd013A5a6c4a9DEfEa14B |
 
 ---
 
