@@ -9,5 +9,6 @@ abstract contract Errors is PoolStorage {
     error Errors__Not_Authorized();
     error Errors__Invalid_Swap_Token();
     error Errors__AlreadyInitialized();
+    error Errors_Invalid_Address_s();
     error Errors__Unsupported_Ngn_Token(address);
 }

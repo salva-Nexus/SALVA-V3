@@ -60,7 +60,10 @@ contract Invariants is StdInvariant, Test {
         targetSelector(_targetSelector); // 50,000,000
     }
 
-    function invariant_Test_Calculates_Profit_Correctly_From_Ngn_To_Usd_Swaps() external view {
+    function invariant_Test_Calculates_Profit_Correctly_From_Ngn_To_Usd_Swaps()
+        external
+        view
+    {
         uint256 poolPreviousNgnBalance = 0;
         uint256 poolNewNgnBalance = MOCKNGNs.balanceOf(address(DEPLOYEDPOOL));
         uint256 poolUsdBalanceRemaining = MOCKUSDC.balanceOf(address(DEPLOYEDPOOL));
@@ -76,7 +79,8 @@ contract Invariants is StdInvariant, Test {
         // Merchant has 74,000 NGNs, buys USDC from DEPLOYER, rate = 1480/USD
         uint256 merchantNgnBalance = 50_000_000e6;
         uint256 usdBuyRateFromDeployer = 1480e6;
-        uint256 usdToReceive = (merchantNgnBalance * 1e6) / usdBuyRateFromDeployer; // Amount of
+        uint256 usdToReceive = (merchantNgnBalance * 1e6) / usdBuyRateFromDeployer; // Amount
+        // of
         // USDC merchant receives
         // Buying USDC
         _changePrank(MERCHANT);

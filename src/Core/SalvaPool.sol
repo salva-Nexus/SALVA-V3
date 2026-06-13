@@ -19,7 +19,11 @@ contract SalvaPool is SwapEngine {
      * @dev Emits LiquidityAdded for off-chain
      * tracking.
      */
-    function provideLiquidity(address asset, uint256 amount) external onlyDeployer returns (bool) {
+    function provideLiquidity(address asset, uint256 amount)
+        external
+        onlyDeployer
+        returns (bool)
+    {
         // Transfer assets from the LP's wallet
         // to this pool contract
         IERC20(asset).safeTransferFrom(_msgSender(), address(this), amount);
@@ -35,7 +39,11 @@ contract SalvaPool is SwapEngine {
      * @dev Emits LiquidityRemoved for off-chain
      * tracking.
      */
-    function removeLiquidity(address asset, uint256 amount) external onlyDeployer returns (bool) {
+    function removeLiquidity(address asset, uint256 amount)
+        external
+        onlyDeployer
+        returns (bool)
+    {
         // Transfer assets from the pool
         // contract back to the LP's wallet
         IERC20(asset).safeTransfer(_msgSender(), amount);

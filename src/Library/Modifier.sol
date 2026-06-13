@@ -20,11 +20,6 @@ abstract contract Modifier is Context, PoolHelper {
         _;
     }
 
-    modifier onlySupportedNgnDecimal(address token) {
-        _onlySupportedNgnDecimal(token);
-        _;
-    }
-
     function _whenNotPaused() internal view {
         if (paused) {
             revert Errors__Not_Authorized();
@@ -44,8 +39,8 @@ abstract contract Modifier is Context, PoolHelper {
     }
 
     // This is important as this pool only assumes NGN tokens with 6 decimals,
-    // so we need to ensure that any token used as NGN has the correct decimals to avoid any issues
-    // with the calculations
+    // so we need to ensure that any token used as NGN has the correct decimals to avoid
+    // any issues with the calculations
     function _onlySupportedNgnDecimal(address token) internal view {
         uint8 decimal = _decimalsOf(token);
         if (decimal != NGN_DECIMALS) {

@@ -34,7 +34,11 @@ contract MockMultisig {
      */
     function proposeUpgrade(address proxy, address newImpl) external onlyAdmin {
         upgradeProposals[newImpl] = UpgradeProposal({
-            proxy: proxy, newImpl: newImpl, timeLock: 0, isValidated: false, isExecuted: false
+            proxy: proxy,
+            newImpl: newImpl,
+            timeLock: 0,
+            isValidated: false,
+            isExecuted: false
         });
     }
 
@@ -61,7 +65,8 @@ contract MockMultisig {
         p.isExecuted = true;
 
         // Upgrade the external Pool Factory
-        bytes memory data = abi.encodeWithSignature("upgradeToAndCall(address,bytes)", newImpl, "");
+        bytes memory data =
+            abi.encodeWithSignature("upgradeToAndCall(address,bytes)", newImpl, "");
         (success,) = p.proxy.call(data);
         if (!success) {
             revert UpgradeFailed();

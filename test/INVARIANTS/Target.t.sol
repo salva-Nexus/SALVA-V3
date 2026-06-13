@@ -59,8 +59,9 @@ contract Target is Test {
             usdAmountOut = poolUsdcBalance / 3;
         }
 
-        uint256 NgnsToSell_FromBuyer =
-            DEPLOYEDPOOL.getExactNGNAmountIn(address(MOCKUSDC), usdAmountOut, INITIALBUYRATE);
+        uint256 NgnsToSell_FromBuyer = DEPLOYEDPOOL.getExactNGNAmountIn(
+            address(MOCKUSDC), usdAmountOut, INITIALBUYRATE
+        );
         if (NgnsToSell_FromBuyer == 0) {
             return;
         }
