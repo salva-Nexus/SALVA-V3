@@ -43,6 +43,7 @@ abstract contract SwapEngine is SalvaOracle {
     // ─── NGN → USD
     // ────────────────────────────────────────────────────────────
 
+    // checking
     function swapExactNGNAmountForUSD(
         address _receiver,
         address _usdTokenOut,
