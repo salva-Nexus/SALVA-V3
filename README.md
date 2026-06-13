@@ -138,7 +138,7 @@ SalvaMath   (calculateUSDAmountOut, calculateNGNAmountOut,
 
 ---
 
-## 🌍 Deployments (SALVA POOLS FACTORY)
+## 🌍 Deployments (SALVA POOL FACTORIES)
 
 | Network |
 | :--- |
