@@ -142,8 +142,8 @@ SalvaMath   (calculateUSDAmountOut, calculateNGNAmountOut,
 
 | Network |
 | :--- |
-| **Base Chain** - 0xa13D80CCa616CB89D8146b771987ad91B2195Dac|
-| **BNB Smart Chain** - 0xd4Be95F31FCED543002Fd013A5a6c4a9DEfEa14B |
+| **Base Chain** - 0x06B1A640C533F1bD178B7876e2f1e4B7fFb7Bf25|
+| **BNB Smart Chain** - 0x3d8AfBd8C2757179f2f628a9FDB8BefD07fD032e |
 
 ---
 

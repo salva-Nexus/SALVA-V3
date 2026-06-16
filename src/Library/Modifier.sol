@@ -47,5 +47,23 @@ abstract contract Modifier is Context, PoolHelper {
             revert Errors__Unsupported_Ngn_Token(token);
         }
     }
+
+    function _checkZeroRate(uint256 exRate) internal pure {
+        if (exRate == 0) {
+            revert Errors__Invalid_Rate(exRate);
+        }
+    }
+
+    function _checkMinNgn(uint256 ngnAmount) internal view {
+        if (ngnAmount < minNgnAmount) {
+            revert Errors__Amount_Too_Low(ngnAmount);
+        }
+    }
+
+    function _checkMinUsd(uint256 usdAmount) internal view {
+        if (usdAmount < minUsdAmount) {
+            revert Errors__Amount_Too_Low(usdAmount);
+        }
+    }
 }
 

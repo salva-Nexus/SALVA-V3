@@ -4,9 +4,7 @@ pragma solidity ^0.8.30;
 import { Context } from "@Context/Context.sol";
 import { ISalvaPool } from "@ISalvaPool/ISalvaPool.sol";
 import { Clones } from "@openzeppelin/contracts/proxy/Clones.sol";
-import {
-    IERC20Metadata
-} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
+import { IERC20Metadata } from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 
 /**
  * @title PoolFactory

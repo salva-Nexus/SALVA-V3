@@ -60,10 +60,7 @@ contract Invariants is StdInvariant, Test {
         targetSelector(_targetSelector); // 50,000,000
     }
 
-    function invariant_Test_Calculates_Profit_Correctly_From_Ngn_To_Usd_Swaps()
-        external
-        view
-    {
+    function invariant_Test_Calculates_Profit_Correctly_From_Ngn_To_Usd_Swaps() external view {
         uint256 poolPreviousNgnBalance = 0;
         uint256 poolNewNgnBalance = MOCKNGNs.balanceOf(address(DEPLOYEDPOOL));
         uint256 poolUsdBalanceRemaining = MOCKUSDC.balanceOf(address(DEPLOYEDPOOL));

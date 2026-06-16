@@ -22,21 +22,21 @@ library SalvaMath {
         }
     }
 
-    function calculateExactNGNAmountIn(
-        uint256 _usdAmountOut,
-        uint256 _exRate,
-        uint256 _factor
-    ) internal pure returns (uint256 _amountIn) {
+    function calculateExactNGNAmountIn(uint256 _usdAmountOut, uint256 _exRate, uint256 _factor)
+        internal
+        pure
+        returns (uint256 _amountIn)
+    {
         unchecked {
             _amountIn = (_exRate * _usdAmountOut) / _factor;
         }
     }
 
-    function calculateExactUSDAmountIn(
-        uint256 _ngnAmountOut,
-        uint256 _exRate,
-        uint256 _factor
-    ) internal pure returns (uint256 _amountIn) {
+    function calculateExactUSDAmountIn(uint256 _ngnAmountOut, uint256 _exRate, uint256 _factor)
+        internal
+        pure
+        returns (uint256 _amountIn)
+    {
         unchecked {
             _amountIn = (_ngnAmountOut * _factor) / _exRate;
         }

@@ -10,17 +10,11 @@ pragma solidity ^0.8.30;
 interface ISalvaPool {
     // --- Swap Events ---
     event SwappedToUSD(
-        address indexed receiver,
-        address indexed token,
-        uint256 ngnAmountIn,
-        uint256 usdAmountOut
+        address indexed receiver, address indexed token, uint256 ngnAmountIn, uint256 usdAmountOut
     );
 
     event SwappedToNGN(
-        address indexed receiver,
-        address indexed token,
-        uint256 usdAmountIn,
-        uint256 ngnAmountOut
+        address indexed receiver, address indexed token, uint256 usdAmountIn, uint256 ngnAmountOut
     );
 
     // --- Rate Events ---
