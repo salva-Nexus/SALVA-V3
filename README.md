@@ -172,7 +172,7 @@ forge test
 forge test -vvv
 
 # Run a specific test
-forge test --mt testSwapExactAmountToToken -vvvv
+forge test --mt testSwapExactAmountToUsd -vvvv
 ```
 
 ---

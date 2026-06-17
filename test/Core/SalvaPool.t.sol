@@ -61,7 +61,7 @@ contract SalvaPool is Setup {
         POOL.swapForExactUSDAmount(user, address(MOCKUSDC), address(MOCKNGNs), 150e6);
     }
 
-    function testSwapExactAmountToToken() external {
+    function testSwapExactAmountToUsd() external {
         address user = makeAddr("user");
         _changePrank(MAINDEPLOYER);
         MOCKNGNs.mint(user, 1_000_000e6);
