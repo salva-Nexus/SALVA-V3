@@ -38,7 +38,7 @@
 
 The entire Nigerian crypto market runs on P2P — Binance P2P, Bybit P2P, LocalBitcoins. Every single one requires a merchant to be online, accept the order, confirm payment, and manually release crypto. The whole flow can take 10–30 minutes minimum. If the merchant is slow or offline, you are stuck.
 
-The deeper problem is that NGN cannot be traded on any AMM. AMMs determine price algorithmically from pool ratios — but the Naira exchange rate is set by the real-world fiat market, not on-chain supply and demand. The moment an AMM pool is funded with a Naira Stablecoin, arbitrageurs can drain it instantly by exploiting the gap between the on-chain price and the actual fiat rate. The pool breaks before it can serve a single real user.
+The deeper problem is that NGN should not be traded on any AMM. AMMs determine price algorithmically from pool ratios — but the Naira exchange rate is set by the real-world fiat market, not on-chain supply and demand. The moment an AMM pool is funded with a Naira Stablecoin, arbitrageurs can drain it instantly by exploiting the gap between the on-chain price and the actual fiat rate. The pool breaks before it can serve a single real user.
 
 Salva V3 solves this with an oracle-gated model. The LP sets the rate manually from the live market, and the pool executes swaps at exactly that rate — no algorithmic pricing, no arbitrage surface, no pool drain.
 
