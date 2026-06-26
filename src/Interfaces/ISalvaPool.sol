@@ -18,8 +18,8 @@ interface ISalvaPool {
     );
 
     // --- Rate Events ---
-    event BuyRateUpdated(uint256 oldRate, uint256 newRate);
-    event SellRateUpdated(uint256 oldRate, uint256 newRate);
+    event BuyRateUpdated(uint256 newRate);
+    event SellRateUpdated(uint256 newRate);
 
     // --- State Events ---
     event Paused(address account);
