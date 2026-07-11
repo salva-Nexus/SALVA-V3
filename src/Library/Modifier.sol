@@ -33,7 +33,7 @@ abstract contract Modifier is Context, PoolHelper {
     }
 
     function _onlyDeployer() internal view {
-        if (_msgSender() != deployer) {
+        if (_msgSender() != getDeployer()) {
             revert Errors__Not_Authorized();
         }
     }
@@ -42,8 +42,7 @@ abstract contract Modifier is Context, PoolHelper {
     // so we need to ensure that any token used as NGN has the correct decimals to avoid
     // any issues with the calculations
     function _onlySupportedNgnDecimal(address token) internal view {
-        uint8 decimal = _decimalsOf(token);
-        if (decimal != NGN_DECIMALS) {
+        if (_decimalsOf(token) != NGN_DECIMALS) {
             revert Errors__Unsupported_Ngn_Token(token);
         }
     }
@@ -55,13 +54,13 @@ abstract contract Modifier is Context, PoolHelper {
     }
 
     function _checkMinNgn(uint256 ngnAmount) internal view {
-        if (ngnAmount < minNgnAmount) {
+        if (ngnAmount < getMinuimumNgnAmount()) {
             revert Errors__Amount_Too_Low(ngnAmount);
         }
     }
 
     function _checkMinUsd(uint256 usdAmount) internal view {
-        if (usdAmount < minUsdAmount) {
+        if (usdAmount < getMinuimumUSDAmount()) {
             revert Errors__Amount_Too_Low(usdAmount);
         }
     }

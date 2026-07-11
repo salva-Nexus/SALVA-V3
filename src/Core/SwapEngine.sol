@@ -35,7 +35,7 @@ import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.s
  * Settlement is handled by the single internal function _executeSwap, which
  * pulls the input token from msg.sender via safeTransferFrom and pushes the
  * output token to the receiver via safeTransfer. The bool _ngnOut flag
- * determines which direction the transfer pair flows.
+ * determines which direction the transfer pair flows
  */
 abstract contract SwapEngine is SalvaOracle {
     using SafeERC20 for IERC20;

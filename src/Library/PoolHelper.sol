@@ -43,11 +43,11 @@ abstract contract PoolHelper is Errors {
         return IERC20(asset).balanceOf(address(this));
     }
 
-    function getMinuimumNgnAmount() external view returns (uint256) {
+    function getMinuimumNgnAmount() public view returns (uint256) {
         return uint256(minNgnAmount);
     }
 
-    function getMinuimumUSDAmount() external view returns (uint256) {
+    function getMinuimumUSDAmount() public view returns (uint256) {
         return uint256(minUsdAmount);
     }
 
@@ -106,7 +106,7 @@ abstract contract PoolHelper is Errors {
     // ─── Owner / state views
     // ──────────────────────────────────────────────────
 
-    function getDeployer() external view returns (address) {
+    function getDeployer() public view returns (address) {
         return deployer;
     }
 
