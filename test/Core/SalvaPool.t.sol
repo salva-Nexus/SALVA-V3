@@ -225,4 +225,6 @@ contract SalvaPool is Setup {
         uint256 result = POOL.getExactNGNAmountOut(address(MOCKUSDC), usd6, rate6);
         console.log(result);
     }
+
+    
 }
