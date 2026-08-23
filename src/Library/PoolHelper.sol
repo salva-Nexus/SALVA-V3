@@ -43,14 +43,6 @@ abstract contract PoolHelper is Errors {
         return IERC20(asset).balanceOf(address(this));
     }
 
-    function getMinuimumNgnAmount() public view returns (uint256) {
-        return uint256(minNgnAmount);
-    }
-
-    function getMinuimumUSDAmount() public view returns (uint256) {
-        return uint256(minUsdAmount);
-    }
-
     // ─── Internal helpers
     // ─────────────────────────────────────────────────────
 

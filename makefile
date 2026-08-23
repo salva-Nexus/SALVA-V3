@@ -18,3 +18,10 @@ DEPLOY-TO-BNB_MAINNET:
 
 DEPLOY-TO-BNB_TESTNET:
 	forge script script/DeployFactory.s.sol:DeployFactory --rpc-url ${BNB_TESTNET_RPC_URL} --account mainKey --broadcast --verify --etherscan-api-key ${ETHERSCAN_API_KEY}
+
+
+DEPLOY-TO-BASE-MULTISEND:
+	forge script script/DeployMultisend.s.sol:DeployMultisend --rpc-url ${BASE_SEPOLIA_RPC_URL} --account mainKey --broadcast --verify --etherscan-api-key ${ETHERSCAN_API_KEY}
+
+DEPLOY-TO-BNB_MULTISEND:
+	forge script script/DeployMultisend.s.sol:DeployMultisend --rpc-url ${BNB_TESTNET_RPC_URL} --account mainKey --broadcast --verify --etherscan-api-key ${ETHERSCAN_API_KEY}

@@ -46,20 +46,6 @@ contract SalvaPool is SwapEngine {
         return true;
     }
 
-    function setMinimumNgnAmount(uint256 amount) external onlyDeployer returns (bool) {
-        // disable-next-line(unsafe-typecast)
-        minNgnAmount = uint128(amount);
-        emit MinimumNgnAmountSet(amount);
-        return true;
-    }
-
-    function setMinimumUsdAmount(uint256 amount) external onlyDeployer returns (bool) {
-        // disable-next-line(unsafe-typecast)
-        minUsdAmount = uint128(amount);
-        emit MinimumUsdAmountSet(amount);
-        return true;
-    }
-
     /**
      * @notice Emergncy stop: Pauses all swap
      * functions in the pool.

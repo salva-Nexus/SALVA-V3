@@ -164,30 +164,6 @@ contract SalvaPool is Setup {
         POOL.removeLiquidity(address(MOCKUSDC), 200_000e6);
     }
 
-    function testMinAmount() external {
-        _changePrank(MAINDEPLOYER);
-        POOL.setMinimumNgnAmount(5000e6);
-        POOL.setMinimumUsdAmount(2e6);
-
-        // NGN
-        address user = makeAddr("user");
-        MOCKNGNs.mint(user, 1_000_000e6);
-        MOCKUSDC.mint(user, 2000e6);
-
-        uint256 ngnAmount = 2000e6;
-        _changePrank(user);
-        MOCKNGNs.approve(address(POOL), ngnAmount);
-        vm.expectRevert(abi.encodeWithSelector(Errors.Errors__Amount_Too_Low.selector, ngnAmount));
-        POOL.swapExactNGNAmountForUSD(user, address(MOCKUSDC), address(MOCKNGNs), ngnAmount);
-
-        // USD
-        uint256 usdAmount = 1e6;
-        _changePrank(user);
-        MOCKUSDC.approve(address(POOL), usdAmount);
-        vm.expectRevert(abi.encodeWithSelector(Errors.Errors__Amount_Too_Low.selector, usdAmount));
-        POOL.swapExactUSDAmountForNGN(user, address(MOCKUSDC), address(MOCKNGNs), usdAmount);
-    }
-
     function test_Only_Supported_Ngn_Decimal() external {
         address user = makeAddr("user");
         _changePrank(MAINDEPLOYER);
@@ -226,5 +202,9 @@ contract SalvaPool is Setup {
         console.log(result);
     }
 
-    
+    function test_Hash() public pure {
+        bytes32 hash = keccak256("PoolDeployed(address,address)");
+        console.logBytes32(hash);
+        // 0x66753cd2356569ee081232e3be8909b950e0a76c1f8460c3a5e3c2be32b11bed
+    }
 }

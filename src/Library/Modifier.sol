@@ -52,17 +52,5 @@ abstract contract Modifier is Context, PoolHelper {
             revert Errors__Invalid_Rate(exRate);
         }
     }
-
-    function _checkMinNgn(uint256 ngnAmount) internal view {
-        if (ngnAmount < getMinuimumNgnAmount()) {
-            revert Errors__Amount_Too_Low(ngnAmount);
-        }
-    }
-
-    function _checkMinUsd(uint256 usdAmount) internal view {
-        if (usdAmount < getMinuimumUSDAmount()) {
-            revert Errors__Amount_Too_Low(usdAmount);
-        }
-    }
 }
 

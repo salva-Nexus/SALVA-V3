@@ -52,7 +52,6 @@ abstract contract SwapEngine is SalvaOracle {
         _onlySupportedNgnDecimal(_ngnTokenIn);
         uint256 exRate = _getBuyRate();
         _checkZeroRate(exRate);
-        _checkMinNgn(_ngnAmountIn);
         uint256 usdAmountOut = getExactUSDAmountOut(_usdTokenOut, _ngnAmountIn, exRate);
 
         emit SwappedToUSD(_receiver, _usdTokenOut, _ngnAmountIn, usdAmountOut);
@@ -69,7 +68,6 @@ abstract contract SwapEngine is SalvaOracle {
         uint256 exRate = _getBuyRate();
         _checkZeroRate(exRate);
         uint256 exactNgnAmountIn = getExactNGNAmountIn(_usdTokenOut, _usdAmountOut, exRate);
-        _checkMinNgn(exactNgnAmountIn);
         emit SwappedToUSD(_receiver, _usdTokenOut, exactNgnAmountIn, _usdAmountOut);
         return _executeSwap(
             _ngnTokenIn, _usdTokenOut, _receiver, exactNgnAmountIn, _usdAmountOut, false
@@ -88,7 +86,6 @@ abstract contract SwapEngine is SalvaOracle {
         _onlySupportedNgnDecimal(_ngnTokenOut);
         uint256 exRate = _getSellRate();
         _checkZeroRate(exRate);
-        _checkMinUsd(_usdAmountIn);
         uint256 ngnAmountOut = getExactNGNAmountOut(_usdTokenIn, _usdAmountIn, exRate);
         emit SwappedToNGN(_receiver, _usdTokenIn, _usdAmountIn, ngnAmountOut);
         return _executeSwap(_ngnTokenOut, _usdTokenIn, _receiver, ngnAmountOut, _usdAmountIn, true);
@@ -104,7 +101,6 @@ abstract contract SwapEngine is SalvaOracle {
         uint256 exRate = _getSellRate();
         _checkZeroRate(exRate);
         uint256 exactUsdAmountIn = getExactUSDAmountIn(_usdTokenIn, _ngnAmountOut, exRate);
-        _checkMinUsd(exactUsdAmountIn);
         emit SwappedToNGN(_receiver, _usdTokenIn, exactUsdAmountIn, _ngnAmountOut);
         return
             _executeSwap(
